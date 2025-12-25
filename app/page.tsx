@@ -1,10 +1,16 @@
-import { Button } from "@/components/ui/button";
+import Hero from "@/components/hero";
+import Navbar from "@/components/navbar";
+
 
 export default function Home() {
   return (
     <div>
-      <h1>Hello World</h1>
-      <Button>Click me</Button>
+      {/* Landing */}
+
+      <div>
+        <Navbar />
+        <Hero />
+      </div>
     </div>
   );
 }
