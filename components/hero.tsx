@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "./ui/button";
+import Image from "next/image";
 
 const Hero = () => {
   return (
@@ -15,10 +15,13 @@ const Hero = () => {
       />
 
       {/* Content Overlay */}
-      <div className="relative z-10 flex items-center flex-col gap-3">
-        <h1 className="text-4xl font-bold">hello hero section</h1>
-        <p className="text-lg">This is a hero component</p>
-        <Button>Click me</Button>
+      <div className="relative z-10 w-full h-full flex items-center flex-col gap-3">
+        <Image
+          fill
+          src="/person_portfolio.png"
+          alt="personHero"
+          className="object-contain"
+        />
       </div>
     </div>
   );
