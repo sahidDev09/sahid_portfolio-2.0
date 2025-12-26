@@ -35,14 +35,14 @@ const Navbar = () => {
           <Button
             variant="secondary"
             size="lg"
-            className="rounded-full"
+            className="rounded-full hover:bg-zinc-900 hover:text-white hover:border-[0.5px] border-gray-700"
             asChild>
             <a
               href="https://github.com"
               target="_blank"
               rel="noopener noreferrer">
               <Github className="w-4 h-4" />
-              <span className="hidden sm:inline">GitHub</span>
+              <span className="hidden sm:inline bg-text-colour">GitHub</span>
             </a>
           </Button>
 
