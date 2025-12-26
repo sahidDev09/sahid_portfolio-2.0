@@ -15,13 +15,42 @@ const Hero = () => {
       />
 
       {/* Content Overlay */}
-      <div className="relative z-10 w-full h-full flex items-center flex-col gap-3">
+      <div className="z-10 w-full h-full flex items-center flex-col gap-3 relative">
+        {/* greetings - behind image */}
+        <div className=" mt-36">
+          <h1 className="absolute left-65 text-[8rem] italic flex z-0 text-white/70 font-thin">
+            Hey,
+          </h1>
+          <h1 className="absolute right-55 text-[8rem] italic flex  z-0 text-white/70 font-thin">
+            There
+          </h1>
+        </div>
+
         <Image
           fill
           src="/person_portfolio.png"
           alt="personHero"
-          className="object-contain"
+          className="object-contain z-10 relative"
         />
+        <div className="relative container mx-auto my-10 w-full h-full z-20">
+          {/* name */}
+          <div className=" absolute left-0 bottom-0">
+            <h1 className=" flex flex-col text-9xl font-extrabold">
+              I&apos;M{" "}
+              <span className="bg-linear-to-r from-[#8001ff] to-[#9832ff] bg-clip-text text-transparent stroke-orange-100">
+                SAHID
+              </span>
+            </h1>
+          </div>
+
+          {/* designation  */}
+
+          <div className=" absolute right-0 bottom-0">
+            <h1 className=" flex flex-col text-5xl font-bold uppercase">
+                mern stack <br /> developer.<br /> UI/UX Designer
+            </h1>
+          </div>
+        </div>
       </div>
     </div>
   );

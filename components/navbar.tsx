@@ -10,7 +10,7 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 animate-fade-in">
-      <div className="flex items-center gap-2 px-2 py-2 rounded-full bg-gray-600/30 backdrop-blur-xl border border-border/30">
+      <div className="flex items-center gap-2 px-2 py-2 rounded-full bg-gray-600/20 backdrop-blur-xl border border-border/20">
         {/* Logo */}
         <a
           href="#"
