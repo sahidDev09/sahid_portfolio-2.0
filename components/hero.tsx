@@ -11,7 +11,7 @@ const Hero = () => {
         width="100%"
         height="100%"
         className="absolute inset-0 w-full h-full z-0"
-        style={{ pointerEvents: "none" }}
+        style={{ pointerEvents: "none", transform: "scale(1.2)" }}
       />
 
       {/* Content Overlay */}
