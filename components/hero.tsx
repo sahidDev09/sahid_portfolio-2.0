@@ -19,7 +19,6 @@ const Hero = ({ onLoad }: HeroProps) => {
     }
   }, [iframeLoaded, imageLoaded, onLoad]);
 
-
   return (
     <div
       className="relative flex h-screen w-full flex-col items-center justify-center 
@@ -66,7 +65,7 @@ const Hero = ({ onLoad }: HeroProps) => {
             <h1 className="flex flex-col text-9xl font-extrabold">
               I&apos;M{" "}
               <span
-                className="bg-gradient-to-r from-[#8001ff] to-[#9832ff] 
+                className="bg-linear-to-r from-[#8001ff] to-[#9832ff] 
                                bg-clip-text text-transparent stroke-orange-100">
                 SAHID
               </span>
@@ -76,10 +75,16 @@ const Hero = ({ onLoad }: HeroProps) => {
           {/* Designation */}
           <div className="absolute bottom-0 right-0">
             <h1 className="flex flex-col text-5xl font-bold uppercase">
-              mern stack <br />
-              developer.
-              <br />
-              UI/UX Designer
+              <h2>Creative</h2>
+              <h2>
+                Developer{" "}
+                <span
+                  className="bg-linear-to-r from-[#8001ff] to-[#9832ff] 
+                               bg-clip-text text-transparent">
+                  &
+                </span>
+              </h2>
+              <h1>UI Designer</h1>
             </h1>
           </div>
         </div>
