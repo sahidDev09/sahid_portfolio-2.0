@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { Circle } from "lucide-react";
 
 interface HeroProps {
   onLoad?: () => void;
@@ -60,6 +61,23 @@ const Hero = ({ onLoad }: HeroProps) => {
         />
 
         <div className="container relative z-20 mx-auto my-10 h-full w-full">
+          {/* Left side - Availability badge */}
+          <div className="absolute left-0 md:left-0 top-2/5 -translate-y-1/2 z-30">
+            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/60 backdrop-blur-sm border border-border/30">
+              <Circle className="w-2 h-2 fill-green-400 text-green-400 animate-pulse" />
+              <span className="text-xs md:text-sm font-medium text-foreground/60">
+                Available for new opportunities
+              </span>
+            </div>
+          </div>
+
+          {/* Right side - Specialization text */}
+          <div className="absolute right04 md:right-0 top-2/5 -translate-y-1/2 z-30 text-right">
+            <p className="text-xs md:text-sm text-muted-foreground max-w-[140px] md:max-w-[180px] leading-relaxed">
+              Specialized in Web Design, UI/UX and MERN stack development.
+            </p>
+          </div>
+
           {/* Name */}
           <div className="absolute bottom-0 left-0">
             <h1 className="flex flex-col text-9xl font-extrabold">
