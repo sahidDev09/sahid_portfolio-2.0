@@ -92,7 +92,7 @@ const Hero = ({ onLoad }: HeroProps) => {
 
           {/* Designation */}
           <div className="absolute bottom-0 right-0">
-            <h1 className="flex flex-col text-5xl font-bold uppercase">
+            <span className="flex flex-col text-5xl font-bold uppercase">
               <h2>Creative</h2>
               <h2>
                 Developer{" "}
@@ -103,7 +103,7 @@ const Hero = ({ onLoad }: HeroProps) => {
                 </span>
               </h2>
               <h1>UI Designer</h1>
-            </h1>
+            </span>
           </div>
         </div>
       </div>
