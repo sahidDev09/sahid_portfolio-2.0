@@ -4,13 +4,15 @@ import gsap from "gsap";
 
 interface PreloaderProps {
   onComplete: () => void;
+  isHeroLoaded?: boolean;
 }
 
-const Preloader = ({ onComplete }: PreloaderProps) => {
+const Preloader = ({ onComplete, isHeroLoaded = false }: PreloaderProps) => {
   const [count, setCount] = useState(0);
   const [phase, setPhase] = useState<"init" | "loading" | "complete">("init");
   const counterRef = useRef<HTMLSpanElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const animationRef = useRef<gsap.core.Tween | null>(null);
 
   useEffect(() => {
     const initTimer = setTimeout(() => {
@@ -20,14 +22,15 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
     return () => clearTimeout(initTimer);
   }, []);
 
+  // Start initial slow animation
   useEffect(() => {
-    if (phase !== "loading") return;
+    if (phase !== "loading" || isHeroLoaded) return;
 
     const obj = { value: 0 };
 
-    gsap.to(obj, {
+    animationRef.current = gsap.to(obj, {
       value: 100,
-      duration: 2.5,
+      duration: 3.0,
       ease: "power2.inOut",
       onUpdate: () => {
         setCount(Math.round(obj.value));
@@ -37,7 +40,46 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
         setTimeout(onComplete, 600);
       },
     });
-  }, [phase, onComplete]);
+
+    return () => {
+      if (animationRef.current) {
+        animationRef.current.kill();
+      }
+    };
+  }, [phase, onComplete, isHeroLoaded]);
+
+  // When hero loads, quickly complete to 100%
+  useEffect(() => {
+    if (phase !== "loading" || !isHeroLoaded) return;
+
+    // Kill slow animation if running
+    if (animationRef.current) {
+      animationRef.current.kill();
+    }
+
+    const obj = { value: count };
+    const remainingProgress = 100 - count;
+    const duration = Math.max(0.3, (remainingProgress / 100) * 0.5);
+
+    animationRef.current = gsap.to(obj, {
+      value: 100,
+      duration: duration,
+      ease: "power2.out",
+      onUpdate: () => {
+        setCount(Math.round(obj.value));
+      },
+      onComplete: () => {
+        setPhase("complete");
+        setTimeout(onComplete, 600);
+      },
+    });
+
+    return () => {
+      if (animationRef.current) {
+        animationRef.current.kill();
+      }
+    };
+  }, [phase, onComplete, isHeroLoaded, count]);
 
   const terminalLines = [
     { text: "$ cd portfolio", delay: 0 },
@@ -51,7 +93,7 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
       {phase !== "complete" && (
         <motion.div
           ref={containerRef}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-b from-[#0a0f14] to-[#28054a2f] overflow-hidden"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-linear-to-b from-[#0a0f14] to-[#28054a2f] overflow-hidden"
           exit={{
             y: "-100%",
             transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] },
@@ -140,7 +182,7 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
                   <div className="flex items-center gap-1">
                     <span
                       ref={counterRef}
-                      className="text-3xl md:text-4xl font-bold text-[#8618FF] tabular-nums animate-[pulse-glow_2s_ease-in-out_infinite]">
+                      className="text-3xl md:text-4xl font-bold text-[#993aff] tabular-nums animate-[pulse-glow_2s_ease-in-out_infinite]">
                       {count}
                     </span>
                     <span className="text-xl md:text-2xl text-[#8b949e]">

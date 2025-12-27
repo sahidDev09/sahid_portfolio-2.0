@@ -7,15 +7,22 @@ import Preloader from "@/components/preloader";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
+  const [isHeroLoaded, setIsHeroLoaded] = useState(false);
 
   return (
     <div>
-      <Preloader onComplete={() => setIsLoading(false)} />
+      {/* Hero section loading behind preloader */}
+      <div className={isLoading ? "invisible fixed inset-0 pointer-events-none z-0" : "relative z-0"}>
+        <Hero onLoad={() => setIsHeroLoaded(true)} />
+      </div>
+      
+      <Preloader 
+        onComplete={() => setIsLoading(false)} 
+        isHeroLoaded={isHeroLoaded}
+      />
+      
       {!isLoading && (
-        <div>
-          <Navbar />
-          <Hero />
-        </div>
+        <Navbar />
       )}
     </div>
   );

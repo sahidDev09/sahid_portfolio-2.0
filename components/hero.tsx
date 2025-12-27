@@ -1,18 +1,42 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
-const Hero = () => {
+interface HeroProps {
+  onLoad?: () => void;
+}
+
+const Hero = ({ onLoad }: HeroProps) => {
+  const [iframeLoaded, setIframeLoaded] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    // Check if both iframe and image are loaded
+    if (iframeLoaded && imageLoaded) {
+      onLoad?.();
+    }
+  }, [iframeLoaded, imageLoaded, onLoad]);
+
+
   return (
     <div
       className="relative flex h-screen w-full flex-col items-center justify-center 
                  overflow-hidden text-white gap-3">
       {/* Spline Background */}
       <iframe
+        ref={iframeRef}
         src="https://my.spline.design/orb-hxyvwWjdVKI7t0zgYYXGwTFs/"
         frameBorder="0"
         width="100%"
         height="100%"
         className="absolute inset-0 z-0 h-full w-full"
         style={{ pointerEvents: "none", transform: "scale(1.2)" }}
+        onLoad={() => {
+          // Give Spline scene time to initialize (Spline 3D scenes need extra time)
+          setTimeout(() => setIframeLoaded(true), 1500);
+        }}
       />
 
       {/* Content Overlay */}
@@ -32,6 +56,8 @@ const Hero = () => {
           src="/person_portfolio.png"
           alt="personHero"
           className="relative z-10 object-contain"
+          onLoad={() => setImageLoaded(true)}
+          onLoadingComplete={() => setImageLoaded(true)}
         />
 
         <div className="container relative z-20 mx-auto my-10 h-full w-full">
