@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { Circle } from "lucide-react";
+import { ArrowRightIcon, Circle } from "lucide-react";
+import { AnimatedShinyText } from "./ui/animated-shiny-text";
+import { cn } from "@/lib/utils";
 
 interface HeroProps {
   onLoad?: () => void;
@@ -63,20 +65,25 @@ const Hero = ({ onLoad }: HeroProps) => {
         <div className="container relative z-20 mx-auto my-10 h-full w-full">
           {/* Left side - Availability badge */}
           <div className="absolute left-0 md:left-0 top-2/5 -translate-y-1/2 z-30">
-            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/60 backdrop-blur-sm border border-border/30">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-              </span>
-              <span className="text-xs md:text-sm font-medium text-foreground/60">
-                Available for new opportunities
-              </span>
-            </div>
+            <div
+        className={cn(
+          "group rounded-full border border-black/5 bg-neutral-100 text-base text-white transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800"
+        )}
+      >
+        <AnimatedShinyText className="inline-flex items-center justify-center px-4 py-1 transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400">
+          <span className="relative flex h-2 w-2 mr-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+          </span>
+          <span>Available for new opportunities</span>
+          <ArrowRightIcon className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
+        </AnimatedShinyText>
+      </div>
           </div>
 
           {/* Right side - Specialization text */}
           <div className="absolute right04 md:right-0 top-2/5 -translate-y-1/2 z-30 text-right">
-            <p className="text-xs md:text-sm text-muted-foreground max-w-[140px] md:max-w-[180px] leading-relaxed">
+            <p className="text-lg md:text-lg text-muted-foreground max-w-[260px] md:max-w-[210px] leading-relaxed">
               Specialized in Web Design, UI/UX and MERN stack development.
             </p>
           </div>
@@ -87,7 +94,7 @@ const Hero = ({ onLoad }: HeroProps) => {
               I&apos;M{" "}
               <span
                 className="bg-linear-to-r from-[#8001ff] to-[#9832ff] 
-                               bg-clip-text text-transparent stroke-orange-100">
+            bg-clip-text text-transparent stroke-orange-100">
                 SAHID
               </span>
             </h1>
@@ -101,7 +108,7 @@ const Hero = ({ onLoad }: HeroProps) => {
                 Developer{" "}
                 <span
                   className="bg-linear-to-r from-[#8001ff] to-[#9832ff] 
-                               bg-clip-text text-transparent">
+                  bg-clip-text text-transparent">
                   &
                 </span>
               </h2>
