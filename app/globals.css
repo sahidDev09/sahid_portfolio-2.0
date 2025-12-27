@@ -153,4 +153,61 @@
     box-shadow: 0 0 15px rgba(105, 4, 206, 0.6), 0 0 30px rgba(132, 9, 255, 0.4),
       0 0 45px rgba(152, 50, 255, 0.3);
   }
+
+  /* Preloader styles */
+  .terminal-container {
+    background: oklch(0.141 0.005 285.823);
+  }
+
+  .scanlines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.15),
+      rgba(0, 0, 0, 0.15) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .terminal-text {
+    text-shadow: 0 0 8px currentColor;
+  }
+
+  .terminal-glow {
+    box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+  }
+
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+
+  .cursor-blink {
+    animation: cursor-blink 1s step-end infinite;
+  }
+
+  @keyframes cursor-blink {
+    0%, 50% {
+      opacity: 1;
+    }
+    51%, 100% {
+      opacity: 0;
+    }
+  }
 }
