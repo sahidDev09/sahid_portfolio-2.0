@@ -64,7 +64,10 @@ const Hero = ({ onLoad }: HeroProps) => {
           {/* Left side - Availability badge */}
           <div className="absolute left-0 md:left-0 top-2/5 -translate-y-1/2 z-30">
             <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/60 backdrop-blur-sm border border-border/30">
-              <Circle className="w-2 h-2 fill-green-400 text-green-400 animate-pulse" />
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+              </span>
               <span className="text-xs md:text-sm font-medium text-foreground/60">
                 Available for new opportunities
               </span>
