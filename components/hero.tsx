@@ -71,8 +71,6 @@ const Hero = ({ onLoad }: HeroProps) => {
             </h1>
           </div>
 
-          
-
         {/* end of mobile */}
 
         {/* Hero Image */}
@@ -80,7 +78,7 @@ const Hero = ({ onLoad }: HeroProps) => {
           fill
           src="/person_portfolio.png"
           alt="Sahid - Portfolio Portrait"
-          className="relative z-[-2] md:z-10 object-cover object-bottom md:object-contain"
+          className="relative z-[-2] md:z-10 sm:z-20 object-cover object-bottom md:object-contain"
           onLoad={() => setImageLoaded(true)}
           priority
         />
