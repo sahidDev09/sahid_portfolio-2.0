@@ -44,24 +44,48 @@ const Hero = ({ onLoad }: HeroProps) => {
       <div className="relative z-10 flex h-full w-full flex-col items-center gap-3">
         
         {/* Background Text (Hey There) */}
-        <div className="mt-36 select-none pointer-events-none">
-          <h1 className="absolute left-65 z-0 flex text-[8rem] font-thin italic text-white/70">
+        <div className="mt-36 select-none pointer-events-none hidden md:block">
+          <h1 className="absolute left-65 z-0 flex text-6xl md:text-[8rem] font-thin italic text-white/70 font-primary">
             Hey,
           </h1>
-          <h1 className="absolute right-55 z-0 flex text-[8rem] font-thin italic text-white/70">
+          <h1 className="absolute right-55 z-0 flex text-6xl md:text-[8rem] font-thin italic text-white/70 font-primary">
             There
           </h1>
         </div>
+
+        {/* mobile screen */}
+
+        <div className="mt-36 w-full px-6 select-none pointer-events-none flex justify-start md:hidden">
+          <h1 className="z-0 text-4xl font-thin italic text-white/70 font-primary">Hey, There</h1>
+        </div>
+
+        {/* Mobile Overlay */}
+        <div className="absolute inset-0 z-[-1] h-full w-full bg-black/70 pointer-events-none md:hidden" />
+
+        <div className="w-full px-6 select-none pointer-events-none flex justify-start md:hidden">
+            <h1 className="text-7xl italic font-bold font-primary">
+              I&apos;M{" "}
+              <span className="bg-linear-to-r from-[#8001ff] to-[#9832ff] bg-clip-text text-transparent stroke-orange-100">
+                SAHID
+              </span>
+            </h1>
+          </div>
+
+          
+
+        {/* end of mobile */}
 
         {/* Hero Image */}
         <Image
           fill
           src="/person_portfolio.png"
           alt="Sahid - Portfolio Portrait"
-          className="relative z-10 object-contain"
+          className="relative z-[-2] md:z-10 object-cover object-bottom md:object-contain"
           onLoad={() => setImageLoaded(true)}
           priority
         />
+
+
 
         {/* Floating UI Elements Container */}
         <div className="container relative z-20 mx-auto my-10 h-full w-full">
@@ -86,14 +110,14 @@ const Hero = ({ onLoad }: HeroProps) => {
 
           {/* Specialization Text (Top Right) */}
           <div className="absolute right-4 top-2/5 z-30 -translate-y-1/2 text-right md:right-0">
-            <p className="max-w-[260px] leading-relaxed text-muted-foreground md:max-w-[210px] md:text-lg text-lg">
+            <p className="max-w-[260px] leading-relaxed text-muted-foreground md:max-w-[210px] md:text-lg text-lg font-primary">
               Specialized in Web Design, UI/UX and MERN stack development.
             </p>
           </div>
 
           {/* Name Title (Bottom Left) */}
-          <div className="absolute bottom-0 left-0">
-            <h1 className="flex flex-col text-9xl font-extrabold">
+          <div className="absolute hidden md:block bottom-0 left-0">
+            <h1 className="flex flex-col text-9xl font-extrabold font-heading tracking-wider">
               I&apos;M{" "}
               <span className="bg-linear-to-r from-[#8001ff] to-[#9832ff] bg-clip-text text-transparent stroke-orange-100">
                 SAHID
@@ -103,7 +127,7 @@ const Hero = ({ onLoad }: HeroProps) => {
 
           {/* Designation Title (Bottom Right) */}
           <div className="absolute bottom-0 right-0">
-            <div className="flex flex-col text-5xl font-bold uppercase">
+            <div className="flex flex-col text-5xl font-bold font-heading uppercase tracking-wider">
               <h2> <Highlighter action="underline" color="orange">Creative</Highlighter></h2>
               <h2>
                 Developer{" "}
