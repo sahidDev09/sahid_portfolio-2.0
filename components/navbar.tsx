@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
   const navLinks = [
-    { label: "About me", href: "#about" },
+    { label: "Home", href: "#about" },
     { label: "Skills", href: "#skills" },
     { label: "Projects", href: "#projects" },
   ];

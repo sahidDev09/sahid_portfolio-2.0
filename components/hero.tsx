@@ -7,6 +7,7 @@ import { AnimatedShinyText } from "./ui/animated-shiny-text";
 import { cn } from "@/lib/utils";
 import { Highlighter } from "./ui/highlighter";
 
+
 interface HeroProps {
   onLoad?: () => void;
 }
@@ -31,16 +32,16 @@ const StatusBadge = () => (
 
 // Reusable Specialization Text Component
 const SpecializationText = () => (
-  <p className="max-w-[260px] leading-relaxed text-muted-foreground md:max-w-[210px] md:text-lg text-lg font-primary">
+  <p className="max-w-[260px] leading-relaxed text-muted-foreground sm:max-w-[210px] sm:text-lg text-lg font-primary">
     Specialized in Web Design, UI/UX and MERN stack development.
   </p>
 );
 
 // Name Component
 const NameTitle = () => (
-  <h1 className="text-7xl md:text-9xl italic md:not-italic font-bold md:font-extrabold font-heading md:tracking-wider md:flex md:flex-col">
+  <h1 className="text-7xl sm:text-9xl italic sm:not-italic font-bold sm:font-extrabold font-heading sm:tracking-wider sm:flex sm:flex-col">
     I&apos;M{" "}
-    <span className="bg-linear-to-r from-[#8001ff] to-[#9832ff] bg-clip-text text-transparent stroke-orange-100">
+    <span className="bg-linear-to-r from-[#8001ff] to-[#9832ff] bg-clip-text text-transparent stroke-orange-100 pr-5">
       SAHID
     </span>
   </h1>
@@ -48,7 +49,7 @@ const NameTitle = () => (
 
 // Designation Component
 const DesignationTitle = () => (
-  <div className="flex flex-col text-5xl md:text-6xl font-bold font-heading uppercase tracking-wider">
+  <div className="flex flex-col text-5xl sm:text-6xl font-bold font-heading uppercase tracking-wider">
     <h2>
       <Highlighter action="underline" color="#FF9800">
         Creative
@@ -94,7 +95,7 @@ const Hero = ({ onLoad }: HeroProps) => {
       {/* Main Content Overlay */}
       <div className="relative z-10 flex h-full w-full flex-col items-center">
         {/* Desktop Background Text */}
-        <div className="mt-36 hidden md:block select-none pointer-events-none">
+        <div className="mt-36 hidden sm:block select-none pointer-events-none">
           <h1 className="absolute left-65 z-0 text-[8rem] font-thin italic text-white/70 font-primary">
             Hey,
           </h1>
@@ -104,70 +105,67 @@ const Hero = ({ onLoad }: HeroProps) => {
         </div>
 
         {/* Mobile Layout */}
-        <div className="flex flex-col gap-5 justify-center items-center min-h-screen md:hidden">
-          {/* Mobile Overlay */}
-          <div className="absolute  z-[-1] h-full w-full bg-black/70 pointer-events-none" />
+        <div className="relative z-20 flex w-full flex-col min-h-screen sm:hidden">
+          {/* Mobile Overlay Background (Full Width) */}
+          <div className="absolute inset-0 z-0 bg-black/70 pointer-events-none" />
 
-          {/* Mobile Status Badge */}
-          <div className="w-full px-4 select-none pointer-events-none flex justify-start">
+          {/* Mobile Content (Padded) */}
+          <div className="relative z-10 flex flex-col gap-5 justify-center items-start flex-1 px-6 py-12 select-none pointer-events-none">
+            {/* Mobile Status Badge */}
             <StatusBadge />
-          </div>
 
-          {/* Mobile Greeting */}
-          <div className="w-full px-4 select-none pointer-events-none flex justify-start">
+            {/* Mobile Greeting */}
             <h1 className="text-4xl font-thin italic text-white/70 font-primary">
               Hey, There
             </h1>
-          </div>
 
-          {/* Mobile Name */}
-          <div className="w-full px-4 select-none pointer-events-none flex justify-start">
+            {/* Mobile Name */}
             <NameTitle />
-          </div>
 
-          {/* Mobile Designation */}
-          <div className="w-full px-4 select-none pointer-events-none flex justify-start mt-5">
-            <DesignationTitle />
-          </div>
+            {/* Mobile Designation */}
+            <div className="mt-5">
+              <DesignationTitle />
+            </div>
 
-          {/* Mobile Specialization */}
-          <div className="w-full px-4 select-none pointer-events-none flex justify-start">
+            {/* Mobile Specialization */}
             <SpecializationText />
           </div>
         </div>
 
-        {/* Hero Image */}
-        <Image
-          fill
-          src="/person_portfolio.png"
-          alt="Sahid - Portfolio Portrait"
-          className="relative z-[-2] md:z-10 object-cover object-bottom md:object-contain"
-          onLoad={() => setImageLoaded(true)}
-          priority
-        />
+        {/* Hero Image - Full Screen Portrait */}
+        <div className="absolute inset-0 z-10">
+          <Image
+            fill
+            src="/person_portfolio.png"
+            alt="Sahid - Portfolio Portrait"
+            className="object-cover object-bottom pointer-events-none"
+            onLoad={() => setImageLoaded(true)}
+            priority
+          />
+        </div>
 
-        {/* Desktop Floating UI Elements */}
-        <div className="container relative z-20 mx-auto my-10 h-full w-full hidden md:block">
-          {/* Desktop Status Badge (Top Left) */}
-          <div className="absolute left-0 top-2/5 z-30 -translate-y-1/2">
-            <StatusBadge />
-          </div>
+        {/* Floating UI Elements - Matching Desktop Experience */}
+        <div className="absolute inset-0 z-20 hidden sm:block">
+          <div className="relative h-full w-full px-6 py-12 md:px-12">
+            {/* Status Badge (Top Left) */}
+            <div className="absolute left-6 top-[70%] lg:top-[50%] md:left-12 -translate-y-1/2">
+              <StatusBadge />
+            </div>
 
-          {/* Desktop Specialization Text (Top Right) */}
-          <div className="absolute right-0 top-2/5 z-30 -translate-y-1/2 text-right">
-            <SpecializationText />
-          </div>
+            {/* Specialization Text (Top Right) */}
+            <div className="absolute right-6 top-[70%] lg:top-[50%] md:right-12 -translate-y-1/2 text-right">
+              <SpecializationText />
+            </div>
 
-          {/* Desktop Name Title (Bottom Left) */}
-          <div className="absolute bottom-0 left-0">
-            <div className="flex flex-col">
+            {/* Name Title (Bottom Left) */}
+            <div className="absolute bottom-10 left-6 md:left-12">
               <NameTitle />
             </div>
-          </div>
 
-          {/* Desktop Designation Title (Bottom Right) */}
-          <div className="absolute bottom-0 right-0">
-            <DesignationTitle />
+            {/* Designation Title (Bottom Right) */}
+            <div className="absolute bottom-12 right-6 md:right-12">
+              <DesignationTitle />
+            </div>
           </div>
         </div>
       </div>
