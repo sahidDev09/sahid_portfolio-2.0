@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ArrowRightIcon } from "lucide-react";
 import { AnimatedShinyText } from "./ui/animated-shiny-text";
 import { cn } from "@/lib/utils";
+import { Highlighter } from "./ui/highlighter";
 
 interface HeroProps {
   onLoad?: () => void;
@@ -103,14 +104,14 @@ const Hero = ({ onLoad }: HeroProps) => {
           {/* Designation Title (Bottom Right) */}
           <div className="absolute bottom-0 right-0">
             <div className="flex flex-col text-5xl font-bold uppercase">
-              <h2>Creative</h2>
+              <h2> <Highlighter action="underline" color="orange">Creative</Highlighter></h2>
               <h2>
                 Developer{" "}
                 <span className="bg-linear-to-r from-[#8001ff] to-[#9832ff] bg-clip-text text-transparent">
                   &
                 </span>
               </h2>
-              <h1>UI Designer</h1>
+              <Highlighter action="highlight" color="#9730FF">UI Designer</Highlighter>
             </div>
           </div>
 
