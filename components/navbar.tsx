@@ -1,9 +1,14 @@
+"use client";
+
+import { useState } from "react";
 import { Github, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
+  const [activeLink, setActiveLink] = useState("Home");
+
   const navLinks = [
-    { label: "Home", href: "#about" },
+    { label: "Home", href: "#" },
     { label: "Skills", href: "#skills" },
     { label: "Projects", href: "#projects" },
   ];
@@ -14,20 +19,29 @@ const Navbar = () => {
         {/* Logo */}
         <a
           href="#"
+          onClick={() => setActiveLink("Home")}
           className="px-4 py-2 text-lg 2xl:text-2xl font-bold text-white hover:opacity-90 transition-all">
           Sahid<span className="text-inherit">.</span>
         </a>
 
         {/* Nav Links */}
         <div className="hidden text-white md:flex items-center gap-1">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="px-4 py-2 text-sm 2xl:text-lg font-medium text-muted-foreground hover:text-white hover:bg-linear-to-r from-[#8001ff] to-[#9832ff] rounded-full transition-all duration-300">
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = activeLink === link.label;
+            return (
+              <a
+                key={link.label}
+                href={link.href}
+                onClick={() => setActiveLink(link.label)}
+                className={`px-4 py-2 text-sm 2xl:text-lg font-medium transition-all duration-300 rounded-full ${
+                  isActive
+                    ? "text-white bg-linear-to-r from-[#8001ff] to-[#9832ff]"
+                    : "text-muted-foreground hover:text-white"
+                }`}>
+                {link.label}
+              </a>
+            );
+          })}
         </div>
 
         {/* Action Buttons */}
