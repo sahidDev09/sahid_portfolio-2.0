@@ -16,7 +16,7 @@ interface HeroProps {
 const StatusBadge = () => (
   <div
     className={cn(
-      "group rounded-full border border-black/5 bg-neutral-100 text-base text-white transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800"
+      "group rounded-full border border-black/5 bg-neutral-100 text-base 2xl:text-xl text-white transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800"
     )}
   >
     <AnimatedShinyText className="inline-flex items-center justify-center px-4 py-1 transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400">
@@ -32,14 +32,14 @@ const StatusBadge = () => (
 
 // Reusable Specialization Text Component
 const SpecializationText = () => (
-  <p className="max-w-[260px] leading-relaxed text-muted-foreground sm:max-w-[210px] sm:text-lg text-lg font-primary">
+  <p className="max-w-[260px] leading-relaxed text-muted-foreground sm:max-w-[210px] sm:text-lg text-lg 2xl:text-2xl 2xl:max-w-[350px] font-primary">
     Specialized in Web Design, UI/UX and MERN stack development.
   </p>
 );
 
 // Name Component
 const NameTitle = () => (
-  <h1 className="text-7xl sm:text-9xl italic sm:not-italic font-bold sm:font-extrabold font-heading sm:tracking-wider sm:flex sm:flex-col">
+  <h1 className="text-7xl sm:text-9xl 2xl:text-[12rem] italic sm:not-italic font-bold sm:font-extrabold font-heading sm:tracking-wider sm:flex sm:flex-col leading-none">
     I&apos;M{" "}
     <span className="bg-linear-to-r from-[#8001ff] to-[#9832ff] bg-clip-text text-transparent stroke-orange-100 pr-5">
       SAHID
@@ -49,7 +49,7 @@ const NameTitle = () => (
 
 // Designation Component
 const DesignationTitle = () => (
-  <div className="flex flex-col text-5xl sm:text-6xl font-bold font-heading uppercase tracking-wider">
+  <div className="flex flex-col text-5xl sm:text-6xl 2xl:text-8xl font-bold font-heading uppercase tracking-wider">
     <h2>
       <Highlighter action="underline" color="#FF9800">
         Creative
@@ -96,10 +96,10 @@ const Hero = ({ onLoad }: HeroProps) => {
       <div className="relative z-10 flex h-full w-full flex-col items-center">
         {/* Desktop Background Text */}
         <div className="mt-36 hidden sm:block select-none pointer-events-none">
-          <h1 className="absolute left-65 z-0 text-[8rem] font-thin italic text-white/70 font-primary">
+          <h1 className="absolute left-65 z-0 text-[8rem] 2xl:text-[12rem] font-thin italic text-white/70 font-primary">
             Hey,
           </h1>
-          <h1 className="absolute right-55 z-0 text-[8rem] font-thin italic text-white/70 font-primary">
+          <h1 className="absolute right-55 z-0 text-[8rem] 2xl:text-[12rem] font-thin italic text-white/70 font-primary">
             There
           </h1>
         </div>

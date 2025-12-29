@@ -14,7 +14,7 @@ const Navbar = () => {
         {/* Logo */}
         <a
           href="#"
-          className="px-4 py-2 text-lg font-bold text-white hover:opacity-90 transition-all">
+          className="px-4 py-2 text-lg 2xl:text-2xl font-bold text-white hover:opacity-90 transition-all">
           Sahid<span className="text-inherit">.</span>
         </a>
 
@@ -24,7 +24,7 @@ const Navbar = () => {
             <a
               key={link.label}
               href={link.href}
-              className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-white hover:bg-linear-to-r from-[#8001ff] to-[#9832ff] rounded-full transition-all duration-300">
+              className="px-4 py-2 text-sm 2xl:text-lg font-medium text-muted-foreground hover:text-white hover:bg-linear-to-r from-[#8001ff] to-[#9832ff] rounded-full transition-all duration-300">
               {link.label}
             </a>
           ))}
@@ -41,8 +41,8 @@ const Navbar = () => {
               href="https://github.com"
               target="_blank"
               rel="noopener noreferrer">
-              <Github className="w-4 h-4" />
-              <span className="hidden sm:inline bg-text-colour">GitHub</span>
+              <Github className="w-4 h-4 2xl:w-5 2xl:h-5" />
+              <span className="hidden sm:inline bg-text-colour 2xl:text-lg">GitHub</span>
             </a>
           </Button>
 
@@ -50,8 +50,8 @@ const Navbar = () => {
             variant="secondary"
             size="lg"
             className="rounded-full gradient-download text-white hover:opacity-90 border-0">
-            <Download className="w-4 h-4" />
-            <span className="hidden sm:inline">Download CV</span>
+            <Download className="w-4 h-4 2xl:w-5 2xl:h-5" />
+            <span className="hidden sm:inline 2xl:text-lg">Download CV</span>
           </Button>
         </div>
       </div>

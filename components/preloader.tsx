@@ -138,7 +138,7 @@ const Preloader = ({ onComplete, isHeroLoaded = false }: PreloaderProps) => {
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: line.delay }}
-                    className="font-mono text-sm md:text-base">
+                    className="font-mono text-sm md:text-base 2xl:text-xl">
                     <span
                       className={
                         line.text.startsWith("✓")
@@ -182,10 +182,10 @@ const Preloader = ({ onComplete, isHeroLoaded = false }: PreloaderProps) => {
                   <div className="flex items-center gap-1">
                     <span
                       ref={counterRef}
-                      className="text-3xl md:text-4xl font-bold text-[#993aff] tabular-nums animate-[pulse-glow_2s_ease-in-out_infinite]">
+                      className="text-3xl md:text-4xl 2xl:text-6xl font-bold text-[#993aff] tabular-nums animate-[pulse-glow_2s_ease-in-out_infinite]">
                       {count}
                     </span>
-                    <span className="text-xl md:text-2xl text-[#8b949e]">
+                    <span className="text-xl md:text-2xl 2xl:text-4xl text-[#8b949e]">
                       %
                     </span>
                   </div>
