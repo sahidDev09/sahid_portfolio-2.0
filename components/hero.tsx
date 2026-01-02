@@ -7,7 +7,6 @@ import { AnimatedShinyText } from "./ui/animated-shiny-text";
 import { cn } from "@/lib/utils";
 import { Highlighter } from "./ui/highlighter";
 
-
 interface HeroProps {
   onLoad?: () => void;
 }
@@ -17,8 +16,7 @@ const StatusBadge = () => (
   <div
     className={cn(
       "group rounded-full border border-black/5 bg-neutral-100 text-base 2xl:text-xl text-white transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800"
-    )}
-  >
+    )}>
     <AnimatedShinyText className="inline-flex items-center justify-center px-4 py-1 transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400">
       <span className="relative mr-2 flex h-2 w-2">
         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
@@ -39,7 +37,7 @@ const SpecializationText = () => (
 
 // Name Component
 const NameTitle = () => (
-  <h1 className="text-7xl sm:text-9xl 2xl:text-[12rem] italic sm:not-italic font-bold sm:font-extrabold font-heading sm:tracking-wider sm:flex sm:flex-col leading-none">
+  <h1 className="text-7xl sm:text-9xl 2xl:text-[12rem] italic sm:not-italic font-bold sm:font-extrabold font-heading sm:tracking-wider sm:flex sm:flex-col leading-none  px-4 py-2 rounded-lg">
     I&apos;M{" "}
     <span className="bg-linear-to-r from-[#8001ff] to-[#9832ff] bg-clip-text text-transparent stroke-orange-100 pr-5">
       SAHID
@@ -49,7 +47,7 @@ const NameTitle = () => (
 
 // Designation Component
 const DesignationTitle = () => (
-  <div className="flex flex-col text-5xl sm:text-6xl 2xl:text-8xl font-bold font-heading uppercase tracking-wider">
+  <div className="flex flex-col text-5xl sm:text-6xl 2xl:text-8xl font-bold font-heading uppercase tracking-wider px-4 py-2 rounded-lg">
     <h2>
       <Highlighter action="underline" color="#FF9800">
         Creative
@@ -93,7 +91,7 @@ const Hero = ({ onLoad }: HeroProps) => {
       />
 
       {/* Main Content Overlay */}
-      <div className="relative z-10 flex h-full w-full flex-col items-center">
+      <div className="relative z-20 flex h-full w-full flex-col items-center">
         {/* Desktop Background Text */}
         <div className="mt-36 hidden sm:block select-none pointer-events-none">
           <h1 className="absolute left-65 z-0 text-[8rem] 2xl:text-[12rem] font-thin italic text-white/70 font-primary">
@@ -133,7 +131,7 @@ const Hero = ({ onLoad }: HeroProps) => {
         </div>
 
         {/* Hero Image - Full Screen Portrait */}
-        <div className="absolute inset-0 z-10">
+        <div className="absolute inset-0 z-0">
           <Image
             fill
             src="/person_portfolio.png"
@@ -143,6 +141,9 @@ const Hero = ({ onLoad }: HeroProps) => {
             priority
           />
         </div>
+
+        {/* Smooth Fade Gradient - Bottom Edge */}
+        <div className="absolute bottom-0 left-0 right-0 h-40 z-10 bg-gradient-to-b from-transparent to-black pointer-events-none" />
 
         {/* Floating UI Elements - Matching Desktop Experience */}
         <div className="absolute inset-0 z-20 hidden sm:block">
@@ -158,7 +159,7 @@ const Hero = ({ onLoad }: HeroProps) => {
             </div>
 
             {/* Name Title (Bottom Left) */}
-            <div className="absolute bottom-10 left-6 md:left-12">
+            <div className="absolute bottom-12 left-6 md:left-12">
               <NameTitle />
             </div>
 

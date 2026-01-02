@@ -4,6 +4,7 @@ import { useState } from "react";
 import Hero from "@/components/hero";
 import Navbar from "@/components/navbar";
 import Preloader from "@/components/preloader";
+import About from "@/components/introduction";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -12,17 +13,25 @@ export default function Home() {
   return (
     <div>
       {/* Hero section loading behind preloader */}
-      <div className={isLoading ? "invisible fixed inset-0 pointer-events-none z-0" : "relative z-0"}>
+      <div
+        className={
+          isLoading
+            ? "invisible fixed inset-0 pointer-events-none z-0"
+            : "relative z-0"
+        }>
         <Hero onLoad={() => setIsHeroLoaded(true)} />
       </div>
-      
-      <Preloader 
-        onComplete={() => setIsLoading(false)} 
+
+      <Preloader
+        onComplete={() => setIsLoading(false)}
         isHeroLoaded={isHeroLoaded}
       />
-      
+
       {!isLoading && (
-        <Navbar />
+        <>
+          <Navbar />
+          <About />
+        </>
       )}
     </div>
   );
