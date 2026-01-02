@@ -5,6 +5,7 @@ import Hero from "@/components/hero";
 import Navbar from "@/components/navbar";
 import Preloader from "@/components/preloader";
 import About from "@/components/introduction";
+import IconMarque from "@/components/IconMarque";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -30,6 +31,11 @@ export default function Home() {
       {!isLoading && (
         <>
           <Navbar />
+
+          {/* Icon Marque */}
+          <IconMarque />
+
+          {/* About Section */}
           <About />
         </>
       )}
