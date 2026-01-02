@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter_Tight, Bebas_Neue } from "next/font/google";
 import "./globals.css";
+import { ReactLenis } from "@/lib/lenis";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,23 +38,25 @@ export default function RootLayout({
     <html
       lang="en"
       className={`dark ${geistSans.variable} ${geistMono.variable} ${interTight.variable} ${bebasNeue.variable}`}>
-      <body
-        className="antialiased font-primary bg-black relative overflow-x-hidden"
-        suppressHydrationWarning>
-        {/* Dotted Purple Gradient Background */}
-        <div
-          className="fixed inset-0 pointer-events-none z-0"
-          style={{
-            backgroundImage: `
+      <ReactLenis root>
+        <body
+          className="antialiased font-primary bg-black relative overflow-x-hidden"
+          suppressHydrationWarning>
+          {/* Dotted Purple Gradient Background */}
+          <div
+            className="fixed inset-0 pointer-events-none z-0"
+            style={{
+              backgroundImage: `
               radial-gradient(circle, rgba(153, 50, 255, 0.15) 1px, transparent 1px),
               linear-gradient(135deg, rgba(128, 1, 255, 0.1) 0%, rgba(152, 50, 255, 0.05) 50%, transparent 100%)
             `,
-            backgroundSize: "50px 50px, 100% 100%",
-            backgroundPosition: "0 0, 0 0",
-          }}
-        />
-        <div className="relative z-10">{children}</div>
-      </body>
+              backgroundSize: "50px 50px, 100% 100%",
+              backgroundPosition: "0 0, 0 0",
+            }}
+          />
+          <div className="relative z-10">{children}</div>
+        </body>
+      </ReactLenis>
     </html>
   );
 }

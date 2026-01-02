@@ -30,7 +30,7 @@ const StatusBadge = () => (
 
 // Reusable Specialization Text Component
 const SpecializationText = () => (
-  <p className="max-w-[260px] leading-relaxed text-muted-foreground sm:max-w-[210px] sm:text-lg text-lg 2xl:text-2xl 2xl:max-w-[350px] font-primary">
+  <p className="max-w-65 leading-relaxed text-muted-foreground sm:max-w-52.5 sm:text-lg text-lg 2xl:text-2xl 2xl:max-w-87.5 font-primary">
     Specialized in Web Design, UI/UX and MERN stack development.
   </p>
 );
@@ -143,7 +143,7 @@ const Hero = ({ onLoad }: HeroProps) => {
         </div>
 
         {/* Smooth Fade Gradient - Bottom Edge */}
-        <div className="absolute bottom-0 left-0 right-0 h-40 z-10 bg-gradient-to-b from-transparent to-black pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-40 z-10 bg-linear-to-b from-transparent to-black pointer-events-none" />
 
         {/* Floating UI Elements - Matching Desktop Experience */}
         <div className="absolute inset-0 z-20 hidden sm:block">
