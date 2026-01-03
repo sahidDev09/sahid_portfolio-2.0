@@ -80,6 +80,7 @@ const Hero = ({ onLoad }: HeroProps) => {
 
   return (
     <section className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden text-white">
+
       {/* Background: Spline 3D Scene */}
       <iframe
         src={SPLINE_URL}
