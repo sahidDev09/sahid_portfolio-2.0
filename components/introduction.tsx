@@ -18,7 +18,7 @@ const Introduction = () => {
           onAnimationComplete={handleAnimationComplete}
           as="span"
         >
-          <InteractiveHoverButton className="text-2xl bg-zinc-600 text-[#bc7dff] ml-2">
+          <InteractiveHoverButton className="text-2xl bg-gray-600/20 backdrop-blur-xl border border-purple-400/20 text-[#bc7dff] ml-2">
             Latest Projects
           </InteractiveHoverButton>
         </BlurText>

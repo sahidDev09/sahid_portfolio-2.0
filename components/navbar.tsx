@@ -49,7 +49,7 @@ const Navbar = () => {
           <Button
             variant="secondary"
             size="lg"
-            className="rounded-full hover:bg-zinc-900 hover:text-white hover:border-[0.5px] border-gray-700"
+            className="rounded-full bg-gray-800 backdrop-blur-xl border border-purple-400/20 hover:bg-gray-700 hover:border-purple-400/70"
             asChild>
             <a
               href="https://github.com"
