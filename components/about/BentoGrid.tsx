@@ -1,5 +1,5 @@
 import { motion, type Variants } from "framer-motion";
-import ProfileCard from "./ProfileCard";
+import ProfileCard from "./Profile";
 import SkillsCard from "./SkillsCard";
 import EducationCard from "./EducationCard";
 import GithubActivity from "./GithubActivity";
