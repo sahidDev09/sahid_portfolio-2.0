@@ -5,7 +5,8 @@ const skills = [
   { name: "HTML", category: "frontend" },
   { name: "CSS", category: "frontend" },
   { name: "Tailwind CSS", category: "frontend" },
-  { name: "Bootstrap", category: "frontend" },
+  { name: "Next.js", category: "frontend" },
+  { name: "TypeScript", category: "language" },
   { name: "JavaScript", category: "language" },
   { name: "React.js", category: "frontend" },
   { name: "Node.js", category: "backend" },
@@ -15,7 +16,8 @@ const skills = [
   { name: "Firebase", category: "backend" },
   { name: "GitHub", category: "tools" },
   { name: "Figma", category: "design" },
-  { name: "Adobe XD", category: "design" },
+  { name: "Docker", category: "tools" },
+  { name: "Superbase", category: "database" },
 ];
 
 const categoryColors: Record<string, string> = {
