@@ -6,6 +6,8 @@ import Navbar from "@/components/navbar";
 import Preloader from "@/components/preloader";
 import About from "@/components/introduction";
 import IconMarque from "@/components/IconMarque";
+import BentoGrid from "@/components/about/BentoGrid";
+import AboutMe from "@/components/AboutMe";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -36,7 +38,7 @@ export default function Home() {
           <IconMarque />
 
           {/* About Section */}
-          <About />
+          <AboutMe />
         </>
       )}
     </div>
