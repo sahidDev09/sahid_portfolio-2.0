@@ -54,7 +54,8 @@ const FloatingIconItem = ({ icon: Icon, label, index }: { icon: LucideIcon; labe
       }}
     >
       <motion.div
-        className="icon-circle w-18 h-18 md:w-20 md:h-20 lg:w-24 lg:h-24 flex items-center justify-center transition-all duration-300 group-hover:bg-gradient-to-r hover:from-[hsl(var(--gradient-start))] hover:to-[hsl(var(--gradient-end))] hover:shadow-[0_0_15px_rgba(105,4,206,0.6),0_0_30px_rgba(132,9,255,0.4),0_0_45px_rgba(152,50,255,0.3)] bg-gray-600/20 backdrop-blur-xl border border-purple-400/20 rounded-full group-hover:border-transparent"
+        className="icon-circle gradient-glow-hover w-18 h-18 md:w-20 md:h-20 lg:w-24 lg:h-24 flex items-center justify-center bg-gray-600/20 backdrop-blur-xl border border-purple-400/20 rounded-full"
+
         whileHover={{ scale: 1.15 }}
         transition={{ duration: 0.2 }}
       >

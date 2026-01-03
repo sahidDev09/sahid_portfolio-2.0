@@ -56,14 +56,16 @@ const Navbar = () => {
               target="_blank"
               rel="noopener noreferrer">
               <Github className="w-4 h-4 2xl:w-5 2xl:h-5" />
-              <span className="hidden sm:inline bg-text-colour 2xl:text-lg">GitHub</span>
+              <span className="hidden sm:inline 2xl:text-lg">GitHub</span>
+
             </a>
           </Button>
 
           <Button
             variant="secondary"
             size="lg"
-            className="rounded-full gradient-download text-white hover:opacity-90 border-0">
+            className="rounded-full gradient-glow text-white hover:opacity-90 border-0">
+
             <Download className="w-4 h-4 2xl:w-5 2xl:h-5" />
             <span className="hidden sm:inline 2xl:text-lg">Download CV</span>
           </Button>

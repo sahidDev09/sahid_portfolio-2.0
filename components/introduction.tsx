@@ -8,7 +8,8 @@ const Introduction = () => {
 
   return (
     <div className="container mx-auto my-10 relative z-0">
-      <h1 className="font-neue md:text-[3.6vw] md:leading-[4.4vw] tracking-normal">
+      <h1 className=" md:text-[3.6vw] md:leading-[4.4vw] tracking-normal">
+
         <BlurText
           text="Welcome to my digital portfolio! I'm Sahid, a passionate MERN stack developer dedicated to crafting beautiful and functional websites. Dive in to explore my work and journey"
           direction="bottom"

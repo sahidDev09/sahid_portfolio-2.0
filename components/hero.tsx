@@ -7,6 +7,10 @@ import { AnimatedShinyText } from "./ui/animated-shiny-text";
 import { cn } from "@/lib/utils";
 import { Highlighter } from "./ui/highlighter";
 
+/**
+ * Hero Component - Main landing section with 3D background and portrait image.
+ */
+
 interface HeroProps {
   onLoad?: () => void;
 }
@@ -136,11 +140,12 @@ const Hero = ({ onLoad }: HeroProps) => {
             fill
             src="/person_portfolio.png"
             alt="Sahid - Portfolio Portrait"
-            className="object-cover object-bottom pointer-events-none"
+            className="object-cover object-bottom pointer-events-none select-none"
             onLoad={() => setImageLoaded(true)}
             priority
           />
         </div>
+
 
         {/* Smooth Fade Gradient - Bottom Edge */}
         <div className="absolute bottom-0 left-0 right-0 h-40 z-10 bg-linear-to-b from-transparent to-black pointer-events-none" />

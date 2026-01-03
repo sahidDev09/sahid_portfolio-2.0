@@ -172,13 +172,11 @@
 }
 
 @layer components {
-  .text-text-colour {
-    color: #ff6347; /* Custom color (you can change this to any valid color) */
-  }
 }
 
+
 @layer utilities {
-  .gradient-download {
+  .gradient-glow {
     background: linear-gradient(
       to right,
       hsl(var(--gradient-start)),
@@ -186,10 +184,12 @@
     );
     box-shadow: 0 0 10px rgba(128, 1, 255, 0.5), 0 0 20px rgba(128, 1, 255, 0.3),
       0 0 30px rgba(152, 50, 255, 0.2);
-    transition: box-shadow 0.3s ease;
+    transition: all 0.3s ease;
   }
 
-  .gradient-download:hover {
+  .gradient-glow:hover,
+  .gradient-glow-hover:hover,
+  .group:hover .gradient-glow-hover {
     background: linear-gradient(
       to right,
       hsl(var(--gradient-start)),
@@ -197,7 +197,9 @@
     ) !important;
     box-shadow: 0 0 15px rgba(105, 4, 206, 0.6), 0 0 30px rgba(132, 9, 255, 0.4),
       0 0 45px rgba(152, 50, 255, 0.3);
+    border-color: transparent !important;
   }
+
 
   /* Preloader styles */
   .terminal-container {
