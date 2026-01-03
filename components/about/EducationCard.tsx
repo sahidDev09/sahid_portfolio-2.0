@@ -1,13 +1,14 @@
 import { motion } from "framer-motion";
-import { GraduationCap, Building2, Calendar, BookOpen } from "lucide-react";
+import { GraduationCap, Building2, Calendar, BookOpen, Award } from "lucide-react";
 
 const educationData = [
   {
     id: 1,
-    degree: "Higher Secondary Certificate (HSC)",
-    institution: "Bahubal Honour's College",
-    subject: "Science",
-    year: "2021",
+    degree: "OTHM Diploma in Information Technology",
+    institution: "OTHM Qualification UK",
+    subject: "Level 4/5 extended",
+    year: "2025",
+    credits: "240 Credits",
     status: "completed",
   },
   {
@@ -15,7 +16,7 @@ const educationData = [
     degree: "Bachelor of Science (Honours)",
     institution: "Metropolitan University, Sylhet",
     subject: "Computer Science & Engineering",
-    year: "3rd Semester (2:1)",
+    year: "Final Year",
     status: "current",
   },
 ];
@@ -88,6 +89,13 @@ const EducationCard = () => {
                 <Calendar className="w-3 h-3" />
                 <span>{edu.year}</span>
               </div>
+
+              {edu.credits && (
+                <div className="mt-2 inline-flex items-center gap-1.5 px-2 py-1 rounded-lg bg-[#22d3ee]/5 border border-[#22d3ee]/10 text-[#22d3ee] text-[10px] font-medium uppercase tracking-wider">
+                  <Award className="w-3 h-3" />
+                  <span>{edu.credits}</span>
+                </div>
+              )}
             </div>
           </motion.div>
         ))}

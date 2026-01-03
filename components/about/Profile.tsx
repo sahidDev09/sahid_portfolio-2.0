@@ -12,11 +12,11 @@ interface ProfileCardProps {
 }
 
 const socialLinks = [
-  { icon: Github, href: "https://github.com", label: "GitHub", color: "#f1f5f9" },
-  { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn", color: "#0077b5" },
-  { icon: Twitter, href: "https://twitter.com", label: "Twitter", color: "#1da1f2" },
-  { icon: Facebook, href: "https://facebook.com", label: "Facebook", color: "#1877f2" },
-  { icon: Instagram, href: "https://instagram.com", label: "Instagram", color: "#e4405f" },
+  { icon: Github, href: "https://github.com/sahidDev09", label: "GitHub", color: "#f1f5f9" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/sahidofficial09", label: "LinkedIn", color: "#0077b5" },
+  { icon: Twitter, href: "https://x.com/SahidAh009", label: "Twitter", color: "#1da1f2" },
+  { icon: Facebook, href: "https://www.facebook.com/Sm.sahid99", label: "Facebook", color: "#1877f2" },
+  { icon: Instagram, href: "https://www.instagram.com/0sahid_99", label: "Instagram", color: "#e4405f" },
 ];
 
 const ProfileCard = ({
@@ -206,20 +206,20 @@ const ProfileCard = ({
             opacity: isHovered ? 1 : 0,
           }}
           transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-          className="absolute inset-0 z-10 flex flex-col pointer-events-none"
+          className="absolute left-0 right-0 top-0 h-[calc(100%-180px)] z-10 flex flex-col pointer-events-none"
         >
-          <div className="pointer-events-auto">
+          <div className="pointer-events-auto flex-1 flex flex-col justify-between">
             {/* Info Section */}
             <div
-              className="relative z-10 flex flex-col items-center text-center px-6 pt-4 pb-4"
+              className="relative z-10 flex flex-col items-center text-center px-6 pt-2"
               style={{ transform: "translateZ(30px)" }}
             >
               <h2 className="text-2xl md:text-3xl font-bold text-[#f1f5f9] mb-1">
                 {name}
               </h2>
-              <p className="text-[#9832ff] font-medium mb-4">{title}</p>
+              <p className="text-[#9832ff] font-medium mb-3">{title}</p>
 
-              <div className="flex flex-col gap-2 w-full text-sm text-[#94a3b8]">
+              <div className="flex flex-col gap-1 w-full text-sm text-[#94a3b8]">
                 <div className="flex items-center justify-center gap-2">
                   <MapPin className="w-4 h-4 text-[#8001ff]" />
                   <span>{location}</span>
@@ -229,10 +229,13 @@ const ProfileCard = ({
                   <span>{email}</span>
                 </div>
               </div>
+            </div>
 
+            {/* Bottom Section: Socials and Button */}
+            <div className="flex flex-col gap-4 pb-16">
               {/* Social Links */}
               <div 
-                className="flex items-center justify-center gap-3 mt-5"
+                className="flex items-center justify-center gap-3 px-6"
                 style={{ transform: "translateZ(35px)" }}
               >
                 {socialLinks.map((social) => (
@@ -241,7 +244,7 @@ const ProfileCard = ({
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2.5 rounded-xl bg-[#2a2a4a]/50 border border-[#3a3a5a]/50 text-[#94a3b8] transition-all duration-300"
+                    className="p-2 rounded-xl bg-[#2a2a4a]/50 border border-[#3a3a5a]/50 text-[#94a3b8] transition-all duration-300"
                     whileHover={{ 
                       scale: 1.15, 
                       y: -4,
@@ -263,16 +266,16 @@ const ProfileCard = ({
                   </motion.a>
                 ))}
               </div>
-            </div>
 
-            {/* Contact Button */}
-            <div
-              className="relative z-10 px-6 pb-6 mt-2"
-              style={{ transform: "translateZ(40px)" }}
-            >
-              <button className="w-full py-3 px-6 rounded-xl gradient-glow text-white font-medium transition-all duration-300 hover:shadow-lg hover:shadow-[#8001ff]/25 hover:scale-[1.02] active:scale-[0.98]">
-                Get in Touch
-              </button>
+              {/* Contact Button */}
+              <div
+                className="px-6"
+                style={{ transform: "translateZ(40px)" }}
+              >
+                <button className="w-full py-3 px-6 rounded-xl gradient-glow text-white font-medium transition-all duration-300 hover:shadow-lg hover:shadow-[#8001ff]/25 hover:scale-[1.02] active:scale-[0.98]">
+                  Get in Touch
+                </button>
+              </div>
             </div>
           </div>
         </motion.div>
