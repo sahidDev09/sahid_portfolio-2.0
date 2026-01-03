@@ -82,7 +82,7 @@ const ProfileCard = ({
 
       {/* Card */}
       <div
-        className="h-full flex flex-col overflow-hidden bg-[#1a1a2e]/60 backdrop-blur-xl border border-[#2a2a4a]/50 rounded-2xl shadow-lg p-6 transition-all duration-500 hover:shadow-2xl hover:border-[#8b5cf6]/30 hover:-translate-y-1"
+        className="h-full flex flex-col overflow-hidden bg-gray-600/20 backdrop-blur-xl border border-[#2a2a4a]/50 rounded-2xl shadow-lg p-6 transition-all duration-500 hover:shadow-2xl hover:border-[#8b5cf6]/30 hover:-translate-y-1"
         style={{ transformStyle: "preserve-3d" }}
       >
         {/* Background Pattern */}

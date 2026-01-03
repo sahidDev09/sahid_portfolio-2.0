@@ -22,7 +22,7 @@ const educationData = [
 
 const EducationCard = () => {
   return (
-    <div className="h-full bg-[#1a1a2e]/60 backdrop-blur-xl border border-[#2a2a4a]/50 rounded-2xl shadow-lg p-6 transition-all duration-500 hover:shadow-2xl hover:border-[#8b5cf6]/30 hover:-translate-y-1">
+    <div className="h-full bg-gray-600/20 backdrop-blur-xl border border-[#2a2a4a]/50 rounded-2xl shadow-lg p-6 transition-all duration-500 hover:shadow-2xl hover:border-[#8b5cf6]/30 hover:-translate-y-1">
       <div className="flex items-center gap-2 mb-5">
         <div className="p-2 rounded-xl bg-[#22d3ee]/10">
           <GraduationCap className="w-5 h-5 text-[#22d3ee]" />
