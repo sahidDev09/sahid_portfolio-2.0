@@ -3,7 +3,7 @@ import { InteractiveHoverButton } from "./ui/interactive-hover-button";
 
 const Introduction = () => {
   const handleAnimationComplete = () => {
-    console.log('Animation completed!');
+    return
   };
 
   return (
