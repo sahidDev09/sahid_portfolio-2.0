@@ -34,7 +34,8 @@ const BentoGrid = () => {
       className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 w-full container mx-auto"
       variants={containerVariants}
       initial="hidden"
-      animate="visible"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
     >
       {/* Profile Card - Spans 2 rows on larger screens */}
       <motion.div
