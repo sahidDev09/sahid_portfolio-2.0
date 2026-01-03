@@ -43,12 +43,12 @@ const BentoGrid = () => {
         variants={itemVariants}
       >
         <ProfileCard
-          name="Your Name"
-          title="Full Stack Developer"
-          handle="yourhandle"
+          name="MD ABU SAHID"
+          title="MERN Stack Developer"
           location="Sylhet, Bangladesh"
-          email="hello@example.com"
+          email="iamsahidofficial99@gmail.com"
         />
+
       </motion.div>
 
       {/* Skills Card */}

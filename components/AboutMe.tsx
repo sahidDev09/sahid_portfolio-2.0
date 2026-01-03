@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react'
+
 import Introduction from './introduction'
 import BentoGrid from './about/BentoGrid'
 import { Highlighter } from './ui/highlighter'
@@ -27,7 +27,7 @@ const AboutMe = () => {
       >
            <div className='font-heading tracking-wide uppercase text-4xl md:text-5xl lg:text-6xl text-[#f1f5f9] '>
             <Highlighter action='underline'>
-            About
+            About-
             <span className="bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] to-[#d946ef] bg-clip-text text-transparent">ME</span>
           </Highlighter>
            </div>
