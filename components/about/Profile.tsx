@@ -232,10 +232,10 @@ const ProfileCard = ({
             </div>
 
             {/* Bottom Section: Socials and Button */}
-            <div className="flex flex-col gap-4 pb-16">
+            <div className="flex flex-col gap-6 pb-16">
               {/* Social Links */}
               <div 
-                className="flex items-center justify-center gap-3 px-6"
+                className="flex items-center justify-between px-6"
                 style={{ transform: "translateZ(35px)" }}
               >
                 {socialLinks.map((social) => (
@@ -244,7 +244,7 @@ const ProfileCard = ({
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 rounded-xl bg-[#2a2a4a]/50 border border-[#3a3a5a]/50 text-[#94a3b8] transition-all duration-300"
+                    className="p-3 rounded-xl bg-[#2a2a4a]/50 border border-[#3a3a5a]/50 text-[#94a3b8] transition-all duration-300"
                     whileHover={{ 
                       scale: 1.15, 
                       y: -4,
@@ -262,7 +262,7 @@ const ProfileCard = ({
                       e.currentTarget.style.boxShadow = "none";
                     }}
                   >
-                    <social.icon className="w-5 h-5" />
+                    <social.icon className="w-6 h-6" />
                   </motion.a>
                 ))}
               </div>
