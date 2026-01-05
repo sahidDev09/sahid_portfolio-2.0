@@ -203,7 +203,7 @@ export default function ExpandableCards({
                           href={card.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-black font-medium hover:bg-neutral-200 transition-colors"
+                          className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg gradient-glow text-white font-medium hover:bg-neutral-200 transition-colors"
                         >
                           <ExternalLink className="w-4 h-4" />
                           Live Demo
@@ -212,7 +212,7 @@ export default function ExpandableCards({
                           href={card.codeUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 text-white font-medium border border-white/10 hover:bg-white/20 transition-colors"
+                          className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-white/10 text-white font-medium border border-white/10 hover:bg-white/20 transition-colors"
                         >
                           <Github className="w-4 h-4" />
                           Source Code
