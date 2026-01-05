@@ -3,6 +3,7 @@
 import React, { useId } from "react";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import { useSend } from "@/hooks/use-send";
 
 const Label = ({ children, className, htmlFor }: { children: React.ReactNode; className?: string; htmlFor?: string }) => (
   <label htmlFor={htmlFor} className={className}>
@@ -26,6 +27,29 @@ const WaitlistForm = () => {
   const projectTypeId = useId();
   const timelineId = useId();
   const messageId = useId();
+
+  const { send, isSending, isSuccess, error } = useSend();
+  const formRef = React.useRef<HTMLFormElement>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: formData.get("name") as string,
+      email: formData.get("email") as string,
+      projectType: formData.get("project-type") as string,
+      timeline: formData.get("timeline") as string,
+      message: formData.get("message") as string,
+    };
+    
+    await send(data);
+  };
+
+  React.useEffect(() => {
+    if (isSuccess && formRef.current) {
+      formRef.current.reset();
+    }
+  }, [isSuccess]);
 
   return (
     <div className="relative z-10 flex flex-col lg:flex-row h-full w-full max-w-[1100px] mx-auto items-center p-6 sm:p-10 lg:p-16 gap-8 lg:gap-16">
@@ -116,7 +140,24 @@ const WaitlistForm = () => {
 
       <div className="flex-1 w-full lg:max-w-[480px]">
         <div className="bg-white/5 backdrop-blur-md p-6 sm:p-8 rounded-3xl border border-white/10 shadow-2xl">
-          <form className="space-y-5">
+          {isSuccess ? (
+             <div className="flex flex-col items-center justify-center py-12 space-y-4 text-center animate-in fade-in zoom-in duration-500">
+                <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-2">
+                   <svg className="w-8 h-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                   </svg>
+                </div>
+                <h3 className="text-2xl font-bold text-white">Message Sent!</h3>
+                <p className="text-white/70">Thanks for reaching out. I&apos;ll get back to you shortly.</p>
+                <Button 
+                   onClick={() => window.location.reload()} 
+                   className="mt-6 bg-white/10 hover:bg-white/20 text-white"
+                >
+                   Send Another
+                </Button>
+             </div>
+          ) : (
+          <form className="space-y-5" onSubmit={handleSubmit} ref={formRef}>
             <div>
               <Label
                 htmlFor={nameId}
@@ -209,13 +250,21 @@ const WaitlistForm = () => {
               />
             </div>
             
+            {error && (
+              <div className="text-red-400 text-sm bg-red-400/10 p-3 rounded-lg border border-red-400/20">
+                {error}
+              </div>
+            )}
+
             <Button
               type="submit"
-              className="w-full h-12 rounded-xl bg-white text-black font-bold hover:scale-[1.02] active:scale-[0.98] transition-all tracking-tight shadow-xl shadow-white/10"
+              disabled={isSending}
+              className="w-full h-12 rounded-xl bg-white text-black font-bold hover:scale-[1.02] active:scale-[0.98] transition-all tracking-tight shadow-xl shadow-white/10 disabled:opacity-70 disabled:hover:scale-100"
             >
-              Send Message
+              {isSending ? "Sending..." : "Send Message"}
             </Button>
           </form>
+          )}
         </div>
       </div>
     </div>
