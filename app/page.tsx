@@ -43,7 +43,9 @@ export default function Home() {
           <IconMarque />
 
           {/* About Section */}
-          <AboutMe />
+          <section id="about" className="scroll-mt-28">
+            <AboutMe />
+          </section>
 
           {/* Experience Section */}
           <Experience />
@@ -53,7 +55,9 @@ export default function Home() {
 
         {/* projects */}
         
-        <ExpandableProjects/>
+        <section id="projects" className="scroll-mt-28">
+          <ExpandableProjects/>
+        </section>
 
         <Footer/>
 

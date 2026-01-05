@@ -162,6 +162,7 @@
 @layer base {
   html {
      font-family: var(--font-primary);
+     scroll-behavior: smooth;
   }
   * {
     @apply border-border outline-ring/50;
