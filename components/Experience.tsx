@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Calendar } from "lucide-react";
 import { Highlighter } from "./ui/highlighter";
@@ -18,7 +19,7 @@ const experiences = [
       "Building full-stack applications using the MERN stack",
       "Managing projects, development workflow, and delivery",
     ],
-    logoInitial: "C",
+    logoInitial: "/crevosys.jpg",
     logoColor: "bg-blue-600",
   },
   {
@@ -34,7 +35,7 @@ const experiences = [
       "Integrated APIs and maintained application features",
       "Collaborated remotely with designers and senior developers",
     ],
-    logoInitial: "T",
+    logoInitial: "/tabbed_io.png",
     logoColor: "bg-emerald-600",
   },
 ];
@@ -82,9 +83,21 @@ const Experience = () => {
                     {/* Header: Logo & Role */}
                     <div className="flex items-start justify-between gap-4 mb-6">
                         <div className="flex items-center gap-4">
-                            <div className={`w-14 h-14 rounded-2xl ${exp.logoColor} flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-black/20 shrink-0`}>
+                            {exp.logoInitial.startsWith("/") ? (
+                          <Image
+                            src={exp.logoInitial}
+                            alt={exp.company}
+                            width={50}
+                            height={50}
+                            className="rounded-2xl"
+                          />
+                        ) : (
+                          <div
+                            className={`w-[50px] h-[50px] rounded-2xl flex items-center justify-center text-xl font-bold text-white ${exp.logoColor}`}
+                          >
                             {exp.logoInitial}
-                            </div>
+                          </div>
+                        )}
                             <div>
                             <h3 className="text-xl font-bold text-white leading-tight">
                                 {exp.company}
