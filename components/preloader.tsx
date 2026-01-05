@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 
+import MatrixBackground from "./MatrixBackground";
+
 interface PreloaderProps {
   onComplete: () => void;
   isHeroLoaded?: boolean;
@@ -98,6 +100,9 @@ const Preloader = ({ onComplete, isHeroLoaded = false }: PreloaderProps) => {
             y: "-100%",
             transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] },
           }}>
+          {/* Matrix Rain Effect Background */}
+          <MatrixBackground color="#8618FF" opacity={0.2} />
+
           {/* Scanlines overlay */}
           <div
             className="pointer-events-none fixed inset-0 z-50 opacity-30"

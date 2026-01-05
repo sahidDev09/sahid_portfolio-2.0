@@ -9,6 +9,7 @@ import IconMarque from "@/components/IconMarque";
 import BentoGrid from "@/components/about/BentoGrid";
 import AboutMe from "@/components/AboutMe";
 import { Footer } from "@/components/Footer/Footer";
+import WorkProcess from "@/components/Process/WorkProcess";
 
 
 export default function Home() {
@@ -42,6 +43,9 @@ export default function Home() {
           {/* About Section */}
           <AboutMe />
         {/* footer */}
+ 
+        {/* work process */}
+        <WorkProcess/>
 
         <Footer/>
 
