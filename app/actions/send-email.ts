@@ -1,6 +1,7 @@
 "use server";
 
 import { Resend } from "resend";
+import { generateEmailTemplate } from "@/lib/email-template";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -27,17 +28,7 @@ export async function sendEmail(data: EmailData) {
       to: [myEmail],
       replyTo: email,
       subject: `New Project Inquiry from ${name}`,
-      html: `
-        <h2>New Project Inquiry</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Project Type:</strong> ${projectType}</p>
-        <p><strong>Timeline:</strong> ${timeline}</p>
-        <p><strong>Message:</strong></p>
-        <blockquote style="background: #f9f9f9; padding: 10px; border-left: 5px solid #ccc;">
-          ${message}
-        </blockquote>
-      `,
+      html: generateEmailTemplate({ name, email, projectType, timeline, message }),
     });
 
     if (error) {
