@@ -94,8 +94,8 @@ export default function ExpandableCards({
     <div
       className={`relative flex w-full flex-col gap-4 overflow-hidden px-6 ${className}`}
     >
-      <div className="flex items-center justify-between px-4">
-         <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-neutral-200 to-neutral-500">My Projects</h2>
+      <div className="flex items-center justify-end px-4">
+       
         <div className="flex gap-2">
           <button
             onClick={scrollLeft}
