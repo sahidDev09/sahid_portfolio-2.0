@@ -1,6 +1,8 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { useState, useRef } from "react";
+import { useState, useRef, useId } from "react";
 import { Mail, MapPin, Sparkles, Github, Linkedin, Twitter, Facebook, Instagram } from "lucide-react";
+import { ExpandableScreen, ExpandableScreenContent, ExpandableScreenTrigger } from "../ui/expandable-screen";
+import WaitlistForm from "../Process/WaitlistForm";
 
 interface ProfileCardProps {
   avatarUrl?: string;
@@ -28,6 +30,7 @@ const ProfileCard = ({
   email = "sahidDev09@gmail.com",
 }: ProfileCardProps) => {
   const ref = useRef<HTMLDivElement>(null);
+  const uniqueId = useId();
   const [isHovered, setIsHovered] = useState(false);
   const [ripples, setRipples] = useState<{ x: number; y: number; id: number }[]>([]);
 
@@ -272,9 +275,18 @@ const ProfileCard = ({
                 className="px-6"
                 style={{ transform: "translateZ(40px)" }}
               >
-                <button className="w-full py-3 px-6 rounded-xl gradient-glow text-white font-medium transition-all duration-300 hover:shadow-lg hover:shadow-[#8001ff]/25 hover:scale-[1.02] active:scale-[0.98]">
-                  Get in Touch
-                </button>
+                <ExpandableScreen layoutId={`cta-card-${uniqueId}`} triggerRadius="100px" contentRadius="24px">
+                  <ExpandableScreenTrigger className="w-full">
+                    <button type="button" className="w-full py-3 px-6 rounded-xl gradient-glow text-white font-medium transition-all duration-300 hover:shadow-lg hover:shadow-[#8001ff]/25 hover:scale-[1.02] active:scale-[0.98]">
+                      Get in Touch
+                    </button>
+                  </ExpandableScreenTrigger>
+                  <ExpandableScreenContent className="bg-[#16131F]">
+                    <WaitlistForm />
+                  </ExpandableScreenContent>
+                </ExpandableScreen>
+
+                
               </div>
             </div>
           </div>

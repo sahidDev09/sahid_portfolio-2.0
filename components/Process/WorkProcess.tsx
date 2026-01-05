@@ -1,5 +1,8 @@
+import { ExpandableScreen, ExpandableScreenContent, ExpandableScreenTrigger } from "../ui/expandable-screen";
 import { Highlighter } from "../ui/highlighter";
 import ProcessCard from "./ProcessCard";
+import WaitlistForm from "./WaitlistForm";
+
 
 const processSteps = [
   {
@@ -68,12 +71,29 @@ const WorkProcess = () => {
           ))}
         </div>
 
-        {/* CTA */}
-        <div className="text-center mt-16 lg:mt-20">
+        {/* CTA expandable screen */}
+
+        <ExpandableScreen
+      layoutId="cta-card"
+      triggerRadius="10px"
+      contentRadius="24px"
+    >
+      <div className="flex my-16 justify-center">
+        <ExpandableScreenTrigger>
+           <div className="text-center">
           <button className="px-8 py-4 bg-violet-600 hover:bg-violet-700 text-white font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-violet-600/25">
             Let's Work Together
           </button>
         </div>
+        </ExpandableScreenTrigger>
+      </div>
+ 
+      <ExpandableScreenContent className="bg-[#16131F]">
+         <WaitlistForm />
+      </ExpandableScreenContent>
+
+    </ExpandableScreen>
+      
       </div>
     </section>
   );
