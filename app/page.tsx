@@ -11,6 +11,7 @@ import AboutMe from "@/components/AboutMe";
 import { Footer } from "@/components/Footer/Footer";
 import WorkProcess from "@/components/Process/WorkProcess";
 import ExpandableProjects from "@/components/ExpandableProjects";
+import Experience from "@/components/Experience";
 
 
 export default function Home() {
@@ -43,8 +44,10 @@ export default function Home() {
 
           {/* About Section */}
           <AboutMe />
-        {/* footer */}
- 
+
+          {/* Experience Section */}
+          <Experience />
+
         {/* work process */}
         <WorkProcess/>
 
