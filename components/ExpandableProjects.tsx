@@ -3,6 +3,7 @@
 import { getImageKitUrl } from "./smoothui/data";
 import { useState } from "react";
 import ExpandableCards, { type Card } from "./smoothui/expandable-cards";
+import { Highlighter } from "./ui/highlighter";
 
 const ExpandableProjects = () => {
   const [selected, setSelected] = useState<number | null>(null);
@@ -10,62 +11,64 @@ const ExpandableProjects = () => {
   const projectsDetails: Card[] = [
     {
       id: 1,
-      title: "Event Horizon",
-      image: getImageKitUrl("event-horizon", { width: 800 }),
+      title: "Medinova",
+      image: getImageKitUrl("medinova", { width: 800 }),
       content:
-        "A dynamic event booking platform offering immersive virtual tours and seamless ticket management for global festivals. Built with Next.js and Three.js.",
-      author: {
-        name: "Sahid",
-        role: "Product Designer",
-        image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sahid1",
-      },
+        "A comprehensive platform for a medical diagnostic center featuring online appointment scheduling, test result access, and department information.",
+      techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Motion", "Postgres"],
+      liveUrl: "#",
+      codeUrl: "#",
     },
     {
       id: 2,
-      title: "Vogue Trends",
-      image: getImageKitUrl("vogue-trends", { width: 800 }),
+      title: "CareerLinker",
+      image: getImageKitUrl("career-linker", { width: 800 }),
       content:
-        "An avant-garde fashion marketplace connecting independent designers with global consumers through AR try-on experiences.",
-      author: {
-        name: "Sahid",
-        role: "Frontend Developer",
-        image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sahid2",
-      },
+        "A modern job portal connecting job seekers with employers, featuring advanced search filters, resume building tools, and application tracking.",
+      techStack: ["React", "Node.js", "Express", "MongoDB", "Redux"],
+      liveUrl: "#",
+      codeUrl: "#",
     },
     {
       id: 3,
-      title: "Canvas AI",
-      image: getImageKitUrl("canvas-ai", { width: 800 }),
+      title: "RongTona",
+      image: getImageKitUrl("rong-tona", { width: 800 }),
       content:
-        "A digital art gallery powered by AI curation, allowing collectors to discover and purchase NFT-backed digital masterpieces.",
-      author: {
-        name: "Sahid",
-        role: "Tech Lead",
-        image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sahid3",
-      },
+        "An innovative AI-powered tool for generating and editing images, utilizing deep learning models to create unique visual content.",
+      techStack: ["Python", "FastAPI", "React", "TensorFlow", "Tailwind CSS"],
+      liveUrl: "#",
+      codeUrl: "#",
     },
     {
       id: 4,
-      title: "Lucidity",
-      image: getImageKitUrl("lucidity", { width: 800 }),
+      title: "Larnica",
+      image: getImageKitUrl("larnica", { width: 800 }),
       content:
-        "A dream journaling and analysis application using natural language processing to uncover patterns in your subconscious.",
-      author: {
-        name: "Sahid",
-        role: "Mobile Developer",
-        image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sahid4",
-      },
+        "An engaging online educational platform offering diverse courses, interactive learning materials, and progress tracking for students.",
+      techStack: ["React.js", "Framer Motion", "Redux", "Tailwind CSS", "Shadcn UI", "TypeScript"],
+      liveUrl: "#",
+      codeUrl: "#",
     },
-   
   ];
-
+ 
   return (
-    <div className="flex min-h-[600px] w-full items-center justify-center py-10">
+    <div>
+
+      <div className="text-center pt-5">
+                <h2 className="text-4xl lg:text-5xl font-heading tracking-wide text-white mb-6">
+                  <Highlighter action="underline">Latest Projects</Highlighter>
+                </h2>
+                
+              </div>
+
+      <div className="flex min-h-[600px] w-full items-center justify-center py-10">
+
       <ExpandableCards
         cards={projectsDetails}
         onSelect={setSelected}
         selectedCard={selected}
       />
+    </div>
     </div>
   );
 };

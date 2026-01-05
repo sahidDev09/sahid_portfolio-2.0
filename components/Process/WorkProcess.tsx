@@ -37,7 +37,7 @@ const processSteps = [
 
 const WorkProcess = () => {
   return (
-    <section className="relative px-6 lg:px-12 bg-zinc-950 overflow-hidden">
+    <section className="relative px-6 pt-16 lg:px-12 bg-zinc-950 overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-20 left-10 w-72 h-72 bg-violet-600/10 rounded-full blur-3xl" />
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-violet-600/5 rounded-full blur-3xl" />

@@ -1,6 +1,6 @@
 "use client";
 
-import { Play, ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { Play, ArrowUpRight, ChevronLeft, ChevronRight, Github, ExternalLink } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
@@ -15,11 +15,9 @@ export type Card = {
   title: string;
   image: string;
   content: string;
-  author?: {
-    name: string;
-    role: string;
-    image: string;
-  };
+  techStack: string[];
+  liveUrl: string;
+  codeUrl: string;
 };
 
 const smoothEasing = [EASING_X1, EASING_Y1, EASING_X2, EASING_Y2];
@@ -187,26 +185,39 @@ export default function ExpandableCards({
                         {card.content}
                         </p>
                     </div>
-                    {card.author && (
+                    <div className="mt-4">
+                        <h4 className="text-lg font-semibold text-white mb-2">Tech Stack</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {card.techStack.map((tech, index) => (
+                            <span
+                              key={index}
+                              className="px-3 py-1 text-sm bg-white/10 text-neutral-300 rounded-full border border-white/5"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                    </div>
                       <div className="mt-6 flex items-center gap-4 border-t border-white/10 pt-6">
-                        <div className="h-12 w-12 overflow-hidden rounded-full border border-white/20 bg-neutral-800">
-                          {/* biome-ignore lint/performance/noImgElement: Using img for author avatar without Next.js Image optimizations */}
-                          <img
-                            alt={card.author.name}
-                            className="h-full w-full object-cover"
-                            src={card.author.image}
-                          />
-                        </div>
-                        <div>
-                          <p className="font-semibold text-white text-lg">
-                            {card.author.name}
-                          </p>
-                          <p className="text-neutral-400 text-sm">
-                            {card.author.role}
-                          </p>
-                        </div>
+                        <a
+                          href={card.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-black font-medium hover:bg-neutral-200 transition-colors"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                          Live Demo
+                        </a>
+                        <a
+                          href={card.codeUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 text-white font-medium border border-white/10 hover:bg-white/20 transition-colors"
+                        >
+                          <Github className="w-4 h-4" />
+                          Source Code
+                        </a>
                       </div>
-                    )}
                   </motion.div>
                 </motion.div>
               )}
