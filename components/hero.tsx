@@ -19,9 +19,9 @@ interface HeroProps {
 const StatusBadge = () => (
   <div
     className={cn(
-      "group rounded-full border border-black/5 bg-neutral-100 text-base 2xl:text-xl text-white transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800"
+      "group rounded-full border border-black/5 bg-neutral-100 text-base 2xl:text-xl text-white transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:hover:bg-neutral-800 mt-5"
     )}>
-    <AnimatedShinyText className="inline-flex items-center justify-center px-4 py-1 transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400">
+    <AnimatedShinyText className="inline-flex items-center justify-center mx-4 py-1 transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400">
       <span className="relative mr-2 flex h-2 w-2">
         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
         <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
@@ -41,7 +41,7 @@ const SpecializationText = () => (
 
 // Name Component
 const NameTitle = () => (
-  <h1 className="text-7xl sm:text-9xl 2xl:text-[12rem] italic sm:not-italic font-bold sm:font-extrabold font-heading sm:tracking-wider sm:flex sm:flex-col leading-none  px-4 py-2 rounded-lg">
+  <h1 className="text-7xl sm:text-9xl 2xl:text-[12rem] italic sm:not-italic font-bold sm:font-extrabold font-heading sm:tracking-wider sm:flex sm:flex-col leading-none  md:px-4 py-2 rounded-lg">
     I&apos;M{" "}
     <span className="bg-linear-to-r from-[#8001ff] to-[#9832ff] bg-clip-text text-transparent stroke-orange-100 pr-5">
       SAHID
@@ -51,7 +51,7 @@ const NameTitle = () => (
 
 // Designation Component
 const DesignationTitle = () => (
-  <div className="flex flex-col text-5xl sm:text-6xl 2xl:text-8xl font-bold font-heading uppercase tracking-wider px-4 py-2 rounded-lg">
+  <div className="flex flex-col text-5xl sm:text-6xl 2xl:text-8xl font-bold font-heading uppercase tracking-wider md:px-4 py-2 rounded-lg">
     <h2>
       <Highlighter action="underline" color="#FF9800">
         Creative
