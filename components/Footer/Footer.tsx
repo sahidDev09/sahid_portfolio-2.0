@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { CheckIcon, CopyIcon } from "lucide-react";
 import { SectionHeader } from "./SectionHeader";
 import { Card } from "./Card";
@@ -28,15 +29,34 @@ export const Footer = () => {
   return (
     <div id="contact" className="container mx-auto md:mt-20">
       <SectionHeader title="Get in Touch" description="Feel free to reach out to discuss projects, ideas, or collaboration opportunities. I&apos;d love to hear from you!"/>
-      <Card className="mt-8 p-0 bg-gray-600/20 backdrop-blur-xl border-white/10 shadow-2xl overflow-hidden">
+      <Card className="mt-8 p-0 bg-gray-800/20 backdrop-blur-xl border-white/10 shadow-2xl overflow-hidden relative">
+        {/* Background Logos */}
+        <div className="absolute top-0 right-0 z-0 opacity-[0.05] pointer-events-none translate-x-1/4 -translate-y-1/4">
+          <Image 
+            src="/sahid_nav.png" 
+            alt="Background Logo Top" 
+            width={500} 
+            height={500} 
+            className="object-contain"
+          />
+        </div>
+        <div className="absolute bottom-0 left-0 z-0 opacity-[0.05] pointer-events-none -translate-x-1/4 translate-y-1/4">
+          <Image 
+            src="/sahid_nav.png" 
+            alt="Background Logo Bottom" 
+            width={500} 
+            height={500} 
+            className="object-contain"
+          />
+        </div>
         {/* Mac-style Top Bar (Header - Keeping as is but making it glass-friendly) */}
-        <div className="flex items-center px-4 py-4 bg-white/10 border-b border-white/10">
+        <div className="relative z-10 flex items-center px-4 py-4 bg-white/10 border-b border-white/10">
           <span className="w-3 h-3 bg-red-500/80 rounded-full mr-2 shadow-[0_0_10px_rgba(239,68,68,0.4)]"></span>
           <span className="w-3 h-3 bg-yellow-400/80 rounded-full mr-2 shadow-[0_0_10px_rgba(250,204,21,0.4)]"></span>
           <span className="w-3 h-3 bg-green-500/80 rounded-full shadow-[0_0_10px_rgba(34,197,94,0.4)]"></span>
         </div>
         
-        <footer className="text-gray-200 py-12">
+        <footer className="relative z-10 text-gray-200 py-12">
           <div className="px-8 flex flex-col md:flex-row md:items-start justify-around gap-12 md:gap-4 w-full">
             {/* Connect Section */}
             <div className="flex flex-col">

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Github, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 const Navbar = () => {
   const [activeLink, setActiveLink] = useState("Home");
@@ -14,14 +15,14 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 animate-fade-in">
-      <div className="flex items-center gap-2 px-2 py-2 rounded-full bg-gray-600/20 backdrop-blur-xl border border-border/20">
+    <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 animate-fade-in w-[90%] md:w-auto">
+      <div className="flex items-center justify-between w-full gap-2 px-2 py-2 rounded-full bg-gray-600/20 backdrop-blur-xl border border-border/20">
         {/* Logo */}
         <a
           href="#"
           onClick={() => setActiveLink("Home")}
           className="px-4 py-2 text-lg 2xl:text-2xl font-bold text-white hover:opacity-90 transition-all">
-          Sahid<span className="text-inherit">.</span>
+          <Image src="/sahid_nav.png" alt="Logo" width={32} height={32} />
         </a>
 
         {/* Nav Links */}
