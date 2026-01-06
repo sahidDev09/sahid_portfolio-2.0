@@ -8,8 +8,8 @@ export const SectionHeader = ({
     description: string;
 }) => {
     return (
-        <div className="flex flex-col gap-5">
-            <h1 className='md:text-6xl sm:text-4xl font-heading tracking-wide'>
+        <div className="flex flex-col gap-5 px-6 md:px-0"> 
+            <h1 className='md:text-6xl text-3xl font-heading tracking-wide'>
                 <Highlighter action="underline">{title}</Highlighter>
             </h1>
             <p className="text-sm font-display text-white/60">{description}</p>

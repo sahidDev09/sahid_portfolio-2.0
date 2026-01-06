@@ -31,7 +31,7 @@ const itemVariants: Variants = {
 const BentoGrid = () => {
   return (
     <motion.div
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 w-full container mx-auto"
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 w-full container mx-auto px-6 md:px-0"
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"

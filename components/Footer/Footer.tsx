@@ -26,7 +26,7 @@ export const Footer = () => {
     }
   };
   return (
-    <div id="contact" className="container mx-auto mt-20 mb-5">
+    <div id="contact" className="container mx-auto md:mt-20">
       <SectionHeader title="Get in Touch" description="Feel free to reach out to discuss projects, ideas, or collaboration opportunities. I&apos;d love to hear from you!"/>
       <Card className="mt-8 p-0 bg-gray-600/20 backdrop-blur-xl border-white/10 shadow-2xl overflow-hidden">
         {/* Mac-style Top Bar (Header - Keeping as is but making it glass-friendly) */}
@@ -76,12 +76,12 @@ export const Footer = () => {
 
             {/* Contact Section */}
             <div className="flex flex-col">
-              <h3 className="text-xs font-bold uppercase mb-6 tracking-[0.3em] text-white/50">Contact</h3>          
+              <h3 className="text-xs font-bold uppercase mb-6 md:mb-0 tracking-[0.3em] text-white/50">Contact</h3>          
               <div className="flex flex-col gap-4">
-                <div className="relative group overflow-hidden p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-[#8001ff]/30 transition-all duration-500">
+                <div className="relative group overflow-hidden p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-[#8001ff]/30 transition-all duration-500 md:mt-4">
                   <div className="relative z-10">
                     <p className="text-sm text-gray-400 mb-1">Email Me</p>
-                    <p className="text-xl md:text-2xl font-bold text-white group-hover:text-[#9832ff] transition-colors duration-300">
+                    <p className="text-lg md:text-2xl md:font-bold font-semibold text-white group-hover:text-[#9832ff] transition-colors duration-300">
                       iamsahidofficial99@gmail.com
                     </p>
                   </div>

@@ -23,15 +23,15 @@ const AboutMe = () => {
       <motion.div 
         {...fadeInUp}
         transition={{ ...fadeInUp.transition, delay: 0.2 }}
-        className='w-full mx-auto justify-center flex flex-col items-center gap-4 my-10'
+        className='w-full mx-auto justify-center flex flex-col items-center gap-4 my-10 px-6 md:px-0'
       >
-           <div className='font-heading tracking-wide  text-4xl md:text-5xl lg:text-6xl text-[#f1f5f9] '>
+           <div className='font-heading tracking-wide text-3xl md:text-4xl lg:text-5xl text-[#f1f5f9] '>
             <Highlighter action='underline'>
             About Me
             
           </Highlighter>
            </div>
-          <p className="text-[#94a3b8] text-lg">
+          <p className="text-[#94a3b8] md:text-lg text-base text-center">
             Passionate developer crafting digital experiences with modern technologies
           </p>
       </motion.div>

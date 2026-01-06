@@ -45,10 +45,10 @@ const WorkProcess = () => {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
         <div className="text-center mb-16 lg:mb-20">
-          <h2 className="text-4xl lg:text-5xl font-heading tracking-wide text-white mb-6">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading tracking-wide text-white mb-6">
             <Highlighter action="underline">My Work Process</Highlighter>
           </h2>
-          <p className="text-zinc-400 text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-zinc-400 md:text-lg text-base max-w-2xl mx-auto leading-relaxed">
             From idea to launch a simple, transparent workflow to build impactful digital products.
           </p>
         </div>

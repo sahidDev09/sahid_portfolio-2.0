@@ -55,10 +55,12 @@ const ExpandableProjects = () => {
     <div>
 
       <div className="text-center pt-5">
-                <h2 className="text-4xl lg:text-5xl font-heading tracking-wide text-white mb-6">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading tracking-wide text-white mb-6">
                   <Highlighter action="underline">Latest Projects</Highlighter>
                 </h2>
-                
+                <p className="text-zinc-400 text-lg max-w-2xl mx-auto leading-relaxed">
+              Check out some of my recent work
+            </p>
               </div>
 
       <div className="flex min-h-[600px] w-full items-center justify-center py-10">
