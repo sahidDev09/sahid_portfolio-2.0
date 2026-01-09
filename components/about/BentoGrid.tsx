@@ -42,13 +42,7 @@ const BentoGrid = () => {
         className="md:row-span-2"
         variants={itemVariants}
       >
-        <ProfileCard
-          name="MD ABU SAHID"
-          title="MERN Stack Developer"
-          location="Sylhet, Bangladesh"
-          email="iamsahidofficial99@gmail.com"
-        />
-
+        <ProfileCard />
       </motion.div>
 
       {/* Skills Card */}

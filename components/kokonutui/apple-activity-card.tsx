@@ -1,9 +1,10 @@
 "use client";
 
-
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
-import { Github, GitCommit, FolderGit2, Star, LucideIcon } from "lucide-react";
+import { Github, GitCommit, FolderGit2, Star, type LucideIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import { createClient } from "@/utils/supabase/client";
 
 interface ActivityData {
     label: string;
@@ -17,48 +18,13 @@ interface ActivityData {
     icon: LucideIcon;
 }
 
-interface CircleProgressProps {
-    data: ActivityData;
-    index: number;
-}
+const iconMap: Record<string, LucideIcon> = {
+    Commits: GitCommit,
+    Repositories: FolderGit2,
+    Stars: Star,
+};
 
-const activities: ActivityData[] = [
-    {
-        label: "Commits",
-        value: 81,
-        color: "#8B5CF6",
-        secondaryColor: "#C084FC",
-        size: 190,
-        current: 2440,
-        target: 3000,
-        unit: "",
-        icon: GitCommit,
-    },
-    {
-        label: "Repositories",
-        value: 49,
-        color: "#06B6D4",
-        secondaryColor: "#22D3EE",
-        size: 150,
-        current: 49,
-        target: 100,
-        unit: "",
-        icon: FolderGit2,
-    },
-    {
-        label: "Stars",
-        value: 30,
-        color: "#EAB308",
-        secondaryColor: "#FDE047",
-        size: 110,
-        current: 30,
-        target: 100,
-        unit: "",
-        icon: Star,
-    },
-];
-
-const CircleProgress = ({ data, index }: CircleProgressProps) => {
+const CircleProgress = ({ data, index }: { data: ActivityData; index: number }) => {
     const strokeWidth = 16;
     const radius = (data.size - strokeWidth) / 2;
     const circumference = radius * 2 * Math.PI;
@@ -147,7 +113,7 @@ const CircleProgress = ({ data, index }: CircleProgressProps) => {
     );
 };
 
-const DetailedActivityInfo = () => {
+const DetailedActivityInfo = ({ activities }: { activities: ActivityData[] }) => {
     return (
         <motion.div
             className="hidden md:flex flex-col gap-6 ml-8"
@@ -190,19 +156,62 @@ export default function AppleActivityCard({
     title?: string;
     className?: string;
 }) {
+    const [activities, setActivities] = useState<ActivityData[]>([]);
+    const [loading, setLoading] = useState(true);
+    const supabase = createClient();
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from("about_github_stats")
+                    .select("*")
+                    .order("display_order", { ascending: true });
+
+                if (error) throw error;
+                if (data) {
+                    const mappedData: ActivityData[] = data.map((item: any) => ({
+                        label: item.label,
+                        value: item.percentage,
+                        color: item.color,
+                        secondaryColor: item.secondary_color,
+                        size: item.size,
+                        current: item.current_value,
+                        target: item.target_value,
+                        unit: "",
+                        icon: iconMap[item.label] || Github,
+                    }));
+                    setActivities(mappedData);
+                }
+            } catch (error) {
+                console.error("Error fetching GitHub stats:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchStats();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-[200px]">
+                <div className="w-20 h-20 rounded-full border-4 border-[#8B5CF6]/20 border-t-[#8B5CF6] animate-spin" />
+            </div>
+        );
+    }
+
     return (
         <div
             className={cn(
-                "relative w-full max-w-3xl mx-auto p-8 rounded-3xl",
+                "relative w-full max-w-3xl mx-auto p-4 md:p-8 rounded-3xl",
                 "text-zinc-900 dark:text-white",
                 className
             )}
         >
             <div className="flex flex-col items-center gap-8">
-                
-
                 <div className="flex items-center">
-                    <div className="relative w-[200px] h-[200px] flex items-center justify-center">
+                    <div className="relative w-[180px] h-[180px] md:w-[200px] md:h-[200px] flex items-center justify-center">
                         <motion.div
                             initial={{ opacity: 0, scale: 0.5 }}
                             whileInView={{ opacity: 1, scale: 1 }}
@@ -220,9 +229,10 @@ export default function AppleActivityCard({
                             />
                         ))}
                     </div>
-                    <DetailedActivityInfo />
+                    <DetailedActivityInfo activities={activities} />
                 </div>
             </div>
         </div>
     );
 }
+

@@ -1,12 +1,37 @@
 "use client";
 
-
+import { useEffect, useState } from 'react'
 import Introduction from './introduction'
 import BentoGrid from './about/BentoGrid'
 import { Highlighter } from './ui/highlighter'
 import { motion } from 'framer-motion'
+import { createClient } from '@/utils/supabase/client'
 
 const AboutMe = () => {
+  const [bio, setBio] = useState<string>("")
+  const [loading, setLoading] = useState(true)
+  const supabase = createClient()
+
+  useEffect(() => {
+    const fetchBio = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("about_profile")
+          .select("bio")
+          .single()
+
+        if (error) throw error
+        if (data?.bio) setBio(data.bio)
+      } catch (error) {
+        console.error("Error fetching bio:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchBio()
+  }, [])
+
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },
     whileInView: { opacity: 1, y: 0 },
@@ -31,9 +56,13 @@ const AboutMe = () => {
             
           </Highlighter>
            </div>
-          <p className="text-[#94a3b8] md:text-lg text-base text-center">
-            Passionate developer crafting digital experiences with modern technologies
-          </p>
+          {loading ? (
+            <div className="h-6 w-64 bg-white/5 animate-pulse rounded" />
+          ) : (
+            <p className="text-[#94a3b8] md:text-lg text-base text-center max-w-2xl px-4">
+              {bio || "Passionate developer crafting digital experiences with modern technologies"}
+            </p>
+          )}
       </motion.div>
 
       <motion.div 
@@ -45,5 +74,6 @@ const AboutMe = () => {
     </div>
   )
 }
+
 
 export default AboutMe

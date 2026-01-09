@@ -1,34 +1,48 @@
+"use client";
+
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { useState, useRef, useId } from "react";
-import { Mail, MapPin, Sparkles, Github, Linkedin, Twitter, Facebook, Instagram } from "lucide-react";
+import { useState, useRef, useId, useEffect } from "react";
+import { Mail, MapPin, Sparkles, Github, Linkedin, Twitter, Facebook, Instagram, type LucideIcon } from "lucide-react";
 import { ExpandableScreen, ExpandableScreenContent, ExpandableScreenTrigger } from "../ui/expandable-screen";
 import WaitlistForm from "../Process/WaitlistForm";
+import { createClient } from "@/utils/supabase/client";
 
-interface ProfileCardProps {
-  avatarUrl?: string;
-  name?: string;
-  title?: string;
-  handle?: string;
-  location?: string;
-  email?: string;
+interface SocialLink {
+  icon: string | LucideIcon;
+  href: string;
+  label: string;
+  color: string;
 }
 
-const socialLinks = [
-  { icon: Github, href: "https://github.com/sahidDev09", label: "GitHub", color: "#f1f5f9" },
-  { icon: Linkedin, href: "https://www.linkedin.com/in/sahidofficial09", label: "LinkedIn", color: "#0077b5" },
-  { icon: Twitter, href: "https://x.com/SahidAh009", label: "Twitter", color: "#1da1f2" },
-  { icon: Facebook, href: "https://www.facebook.com/Sm.sahid99", label: "Facebook", color: "#1877f2" },
-  { icon: Instagram, href: "https://www.instagram.com/0sahid_99", label: "Instagram", color: "#e4405f" },
-];
+interface ProfileData {
+  name: string;
+  title: string;
+  handle: string;
+  location: string;
+  email: string;
+  avatar_url: string;
+  social_links: SocialLink[];
+}
 
-const ProfileCard = ({
-  avatarUrl = "./sahid_bento.jpg",
-  name = "ABU SAHID",
-  title = "MERN Stack Developer",
-  handle = "sahidDev09",
-  location = "Sylhet, Bangladesh",
-  email = "sahidDev09@gmail.com",
-}: ProfileCardProps) => {
+const iconMap: Record<string, LucideIcon> = {
+  Github,
+  GitHub: Github,
+  github: Github,
+  Linkedin,
+  LinkedIn: Linkedin,
+  linkedin: Linkedin,
+  Twitter,
+  twitter: Twitter,
+  Facebook,
+  facebook: Facebook,
+  Instagram,
+  instagram: Instagram,
+};
+
+const ProfileCard = () => {
+  const [profile, setProfile] = useState<ProfileData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const supabase = createClient();
   const ref = useRef<HTMLDivElement>(null);
   const uniqueId = useId();
   const [isHovered, setIsHovered] = useState(false);
@@ -42,6 +56,26 @@ const ProfileCard = ({
 
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["12deg", "-12deg"]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-12deg", "12deg"]);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("about_profile")
+          .select("*")
+          .single();
+
+        if (error) throw error;
+        if (data) setProfile(data);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!ref.current) return;
@@ -74,6 +108,16 @@ const ProfileCard = ({
     y.set(0);
   };
 
+  if (loading) {
+    return (
+      <div className="h-full min-h-[400px] rounded-2xl bg-[#1a1a2e]/60 animate-pulse border border-[#2a2a4a]/50 flex items-center justify-center">
+        <div className="w-32 h-32 rounded-full bg-white/5" />
+      </div>
+    );
+  }
+
+  if (!profile) return null;
+
   return (
     <motion.div
       ref={ref}
@@ -86,7 +130,7 @@ const ProfileCard = ({
         rotateY,
         transformStyle: "preserve-3d",
       }}
-      className="relative h-full cursor-pointer md:min-h-[400px]"
+      className="relative h-full cursor-pointer md:min-h-[460px]"
     >
       {/* Glow Effect */}
       <motion.div
@@ -151,16 +195,16 @@ const ProfileCard = ({
         <motion.div
           className="absolute inset-0 z-20 flex justify-center w-full overflow-hidden"
           animate={{
-            height: isHovered ? "180px" : "100%",
-            paddingTop: isHovered ? "24px" : "0px",
+            height: isHovered ? "210px" : "100%",
+            paddingTop: isHovered ? "32px" : "0px",
           }}
           transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
         >
           <motion.div 
             className="relative"
             animate={{
-              width: isHovered ? "128px" : "100%",
-              height: isHovered ? "128px" : "100%",
+              width: isHovered ? "150px" : "100%",
+              height: isHovered ? "150px" : "100%",
               scale: isHovered ? 1 : 1.1,
             }}
             transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
@@ -185,19 +229,19 @@ const ProfileCard = ({
               transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
             >
               <img
-                src={avatarUrl}
-                alt={name}
+                src={profile.avatar_url}
+                alt={profile.name}
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-black/10 pointer-events-none" />
             </motion.div>
             <motion.div
-              className="absolute -bottom-1 -right-1 p-2 rounded-full bg-[#8001ff] text-[#f1f5f9] shadow-lg z-30"
+              className="absolute -bottom-1 -right-1 p-1.5 rounded-full bg-[#8001ff] text-[#f1f5f9] shadow-lg z-30"
               initial={{ scale: 0 }}
               animate={{ scale: isHovered ? 1 : 0 }}
               transition={{ delay: isHovered ? 0.3 : 0 }}
             >
-              <Sparkles className="w-4 h-4" />
+              <Sparkles className="w-3.5 h-3.5" />
             </motion.div>
           </motion.div>
         </motion.div>
@@ -205,69 +249,72 @@ const ProfileCard = ({
         {/* Info Section Container */}
         <motion.div
           animate={{
-            y: isHovered ? 180 : 400,
+            y: isHovered ? 210 : 460,
             opacity: isHovered ? 1 : 0,
           }}
           transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-          className="absolute left-0 right-0 top-0 h-[calc(100%-180px)] z-10 flex flex-col pointer-events-none"
+          className="absolute left-0 right-0 top-0 h-[calc(100%-210px)] z-10 flex flex-col pointer-events-none"
         >
           <div className="pointer-events-auto flex-1 flex flex-col justify-between">
             {/* Info Section */}
             <div
-              className="relative z-10 flex flex-col items-center text-center px-6 pt-2"
+              className="relative z-10 flex flex-col items-center text-center px-6 pt-4 gap-1.5"
               style={{ transform: "translateZ(30px)" }}
             >
-              <h2 className="text-2xl md:text-3xl font-bold text-[#f1f5f9] mb-1">
-                {name}
+              <h2 className="text-2xl md:text-3xl font-bold text-[#f1f5f9]">
+                {profile.name}
               </h2>
-              <p className="text-[#9832ff] font-medium mb-3">{title}</p>
+              <p className="text-[#9832ff] font-semibold text-base mb-2">{profile.title}</p>
 
-              <div className="flex flex-col gap-1 w-full text-sm text-[#94a3b8]">
+              <div className="flex flex-col gap-2 w-full text-sm text-[#94a3b8]">
                 <div className="flex items-center justify-center gap-2">
                   <MapPin className="w-4 h-4 text-[#8001ff]" />
-                  <span>{location}</span>
+                  <span>{profile.location}</span>
                 </div>
                 <div className="flex items-center justify-center gap-2">
                   <Mail className="w-4 h-4 text-[#8001ff]" />
-                  <span>{email}</span>
+                  <span>{profile.email}</span>
                 </div>
               </div>
             </div>
 
             {/* Bottom Section: Socials and Button */}
-            <div className="flex flex-col gap-6 pb-16">
+            <div className="flex flex-col gap-6 pb-10">
               {/* Social Links */}
               <div 
                 className="flex items-center justify-between px-6"
                 style={{ transform: "translateZ(35px)" }}
               >
-                {socialLinks.map((social) => (
-                  <motion.a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-3 rounded-xl bg-[#2a2a4a]/50 border border-[#3a3a5a]/50 text-[#94a3b8] transition-all duration-300"
-                    whileHover={{ 
-                      scale: 1.15, 
-                      y: -4,
-                      backgroundColor: `${social.color}20`,
-                      borderColor: social.color,
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                    style={{ color: "#94a3b8" }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = social.color;
-                      e.currentTarget.style.boxShadow = `0 8px 25px -5px ${social.color}40`;
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = "#94a3b8";
-                      e.currentTarget.style.boxShadow = "none";
-                    }}
-                  >
-                    <social.icon className="w-6 h-6" />
-                  </motion.a>
-                ))}
+                {profile.social_links.map((social) => {
+                  const Icon = (typeof social.icon === 'string' ? iconMap[social.icon] : social.icon) || iconMap[social.label] || Github;
+                  return (
+                    <motion.a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2.5 rounded-xl bg-[#2a2a4a]/50 border border-[#3a3a5a]/50 text-[#94a3b8] transition-all duration-300"
+                      whileHover={{ 
+                        scale: 1.15, 
+                        y: -4,
+                        backgroundColor: `${social.color}20`,
+                        borderColor: social.color,
+                      }}
+                      whileTap={{ scale: 0.95 }}
+                      style={{ color: "#94a3b8" }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = social.color;
+                        e.currentTarget.style.boxShadow = `0 8px 25px -5px ${social.color}40`;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = "#94a3b8";
+                        e.currentTarget.style.boxShadow = "none";
+                      }}
+                    >
+                      <Icon className="w-6 h-6" />
+                    </motion.a>
+                  );
+                })}
               </div>
 
               {/* Contact Button */}
@@ -277,7 +324,7 @@ const ProfileCard = ({
               >
                 <ExpandableScreen layoutId={`cta-card-${uniqueId}`} triggerRadius="100px" contentRadius="24px">
                   <ExpandableScreenTrigger className="w-full">
-                    <button type="button" className="w-full py-3 px-6 rounded-xl gradient-glow text-white font-medium transition-all duration-300 hover:shadow-lg hover:shadow-[#8001ff]/25 hover:scale-[1.02] active:scale-[0.98]">
+                    <button type="button" className="w-full py-2.5 px-6 rounded-xl gradient-glow text-white text-sm font-medium transition-all duration-300 hover:shadow-lg hover:shadow-[#8001ff]/25 hover:scale-[1.02] active:scale-[0.98]">
                       Get in Touch
                     </button>
                   </ExpandableScreenTrigger>
@@ -285,8 +332,6 @@ const ProfileCard = ({
                     <WaitlistForm />
                   </ExpandableScreenContent>
                 </ExpandableScreen>
-
-                
               </div>
             </div>
           </div>
