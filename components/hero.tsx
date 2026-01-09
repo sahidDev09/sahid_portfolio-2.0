@@ -2,14 +2,23 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { ArrowRightIcon } from "lucide-react";
+import { ArrowRightIcon, Loader2 } from "lucide-react";
 import { AnimatedShinyText } from "./ui/animated-shiny-text";
 import { cn } from "@/lib/utils";
 import { Highlighter } from "./ui/highlighter";
+import { createClient } from "@/utils/supabase/client";
 
 /**
  * Hero Component - Main landing section with 3D background and portrait image.
+ * Data is fetched from Supabase 'hero_section' table.
  */
+
+interface HeroData {
+  name: string;
+  specialization: string;
+  designation_titles: string[];
+  hero_image_url: string;
+}
 
 interface HeroProps {
   onLoad?: () => void;
@@ -33,50 +42,94 @@ const StatusBadge = () => (
 );
 
 // Reusable Specialization Text Component
-const SpecializationText = () => (
+const SpecializationText = ({ text }: { text: string }) => (
   <p className="max-w-65 leading-relaxed text-muted-foreground sm:max-w-52.5 sm:text-lg text-lg 2xl:text-2xl 2xl:max-w-87.5 font-primary">
-    Specialized in Web Design, UI/UX and MERN stack development.
+    {text}
   </p>
 );
 
 // Name Component
-const NameTitle = () => (
+const NameTitle = ({ name }: { name: string }) => (
   <h1 className="text-7xl sm:text-9xl 2xl:text-[12rem] italic sm:not-italic font-bold sm:font-extrabold font-heading sm:tracking-wider sm:flex sm:flex-col leading-none  md:px-4 py-2 rounded-lg">
     I&apos;M{" "}
     <span className="bg-linear-to-r from-[#8001ff] to-[#9832ff] bg-clip-text text-transparent stroke-orange-100 pr-5">
-      SAHID
+      {name.toUpperCase()}
     </span>
   </h1>
 );
 
 // Designation Component
-const DesignationTitle = () => (
+const DesignationTitle = ({ titles }: { titles: string[] }) => (
   <div className="flex flex-col text-5xl sm:text-6xl 2xl:text-8xl font-bold font-heading uppercase tracking-wider md:px-4 py-2 rounded-lg">
-    <h2>
-      <Highlighter action="underline" color="#FF9800">
-        Creative
-      </Highlighter>
-    </h2>
-    <h2>Developer</h2>
-    <h2>
-      <Highlighter action="highlight" color="#9730FF">
-        UI Designer
-      </Highlighter>
-    </h2>
+    {titles.map((title, index) => {
+      if (index === 0) {
+        return (
+          <h2 key={index}>
+            <Highlighter action="underline" color="#FF9800">
+              {title}
+            </Highlighter>
+          </h2>
+        );
+      }
+      if (index === titles.length - 1 && titles.length > 1) {
+        return (
+          <h2 key={index}>
+            <Highlighter action="highlight" color="#9730FF">
+              {title}
+            </Highlighter>
+          </h2>
+        );
+      }
+      return <h2 key={index}>{title}</h2>;
+    })}
   </div>
 );
 
 const Hero = ({ onLoad }: HeroProps) => {
+  const supabase = createClient();
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [heroData, setHeroData] = useState<HeroData | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (iframeLoaded && imageLoaded) {
+    const fetchHeroData = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("hero_section")
+          .select("name, specialization, designation_titles, hero_image_url")
+          .eq("is_active", true)
+          .single();
+
+        if (error) throw error;
+        setHeroData(data);
+      } catch (error) {
+        console.error("Error fetching hero data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHeroData();
+  }, []);
+
+  useEffect(() => {
+    if (iframeLoaded && imageLoaded && !loading) {
       onLoad?.();
     }
-  }, [iframeLoaded, imageLoaded, onLoad]);
+  }, [iframeLoaded, imageLoaded, loading, onLoad]);
 
   const SPLINE_URL = "https://my.spline.design/orb-hxyvwWjdVKI7t0zgYYXGwTFs/";
+
+  if (loading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-black">
+        <Loader2 className="h-8 w-8 animate-spin text-purple-500" />
+      </div>
+    );
+  }
+
+  if (!heroData) return null;
 
   return (
     <section className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden text-white">
@@ -123,15 +176,15 @@ const Hero = ({ onLoad }: HeroProps) => {
             </h1>
 
             {/* Mobile Name */}
-            <NameTitle />
+            <NameTitle name={heroData.name} />
 
             {/* Mobile Designation */}
             <div className="mt-5">
-              <DesignationTitle />
+              <DesignationTitle titles={heroData.designation_titles} />
             </div>
 
             {/* Mobile Specialization */}
-            <SpecializationText />
+            <SpecializationText text={heroData.specialization} />
           </div>
         </div>
 
@@ -139,8 +192,8 @@ const Hero = ({ onLoad }: HeroProps) => {
         <div className="absolute inset-0 z-0">
           <Image
             fill
-            src="/person_portfolio.png"
-            alt="Sahid - Portfolio Portrait"
+            src={heroData.hero_image_url}
+            alt={`${heroData.name} - Portfolio Portrait`}
             className="object-cover object-bottom pointer-events-none select-none"
             onLoad={() => setImageLoaded(true)}
             priority
@@ -161,17 +214,17 @@ const Hero = ({ onLoad }: HeroProps) => {
 
             {/* Specialization Text (Top Right) */}
             <div className="absolute right-6 top-[70%] lg:top-[50%] md:right-12 -translate-y-1/2 text-right">
-              <SpecializationText />
+              <SpecializationText text={heroData.specialization} />
             </div>
 
             {/* Name Title (Bottom Left) */}
             <div className="absolute bottom-12 left-6 md:left-12">
-              <NameTitle />
+              <NameTitle name={heroData.name} />
             </div>
 
             {/* Designation Title (Bottom Right) */}
             <div className="absolute bottom-12 right-6 md:right-12">
-              <DesignationTitle />
+              <DesignationTitle titles={heroData.designation_titles} />
             </div>
           </div>
         </div>
@@ -181,3 +234,4 @@ const Hero = ({ onLoad }: HeroProps) => {
 };
 
 export default Hero;
+
