@@ -25,7 +25,7 @@ const ExpandableProjects = () => {
         const mappedProjects: Card[] = data.map((project: any) => ({
           id: project.id,
           title: project.title,
-          image: getImageKitUrl(project.slug, { width: 800 }),
+          image: project.image_url || getImageKitUrl(project.slug, { width: 800 }),
           content: project.content,
           techStack: project.tech_stack,
           liveUrl: project.live_url,
