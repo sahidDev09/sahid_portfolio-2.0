@@ -15,6 +15,7 @@ export const FormInput = ({ label, icon, ...props }: InputProps) => {
         )}
         <input
           {...props}
+          value={props.value ?? ""}
           className={`w-full bg-zinc-900/50 border border-white/10 rounded-xl py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#8001ff]/50 focus:border-[#8001ff]/50 transition-all ${
             icon ? "pl-12 pr-4" : "px-4"
           }`}
@@ -34,6 +35,7 @@ export const FormTextarea = ({ label, ...props }: TextareaProps) => {
       <label className="text-sm font-medium text-zinc-400 ml-1">{label}</label>
       <textarea
         {...props}
+        value={props.value ?? ""}
         className="w-full bg-zinc-900/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#8001ff]/50 focus:border-[#8001ff]/50 transition-all min-h-[120px]"
       />
     </div>

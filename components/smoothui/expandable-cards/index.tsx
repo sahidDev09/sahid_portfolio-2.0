@@ -2,6 +2,7 @@
 
 import { Play, ArrowUpRight, ChevronLeft, ChevronRight, Github, ExternalLink } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 const AVATAR_SIZE = 96;

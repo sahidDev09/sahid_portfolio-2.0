@@ -22,10 +22,6 @@ export default function AdminEducation() {
   const [saving, setSaving] = useState(false);
   const supabase = createClient();
 
-  useEffect(() => {
-    fetchEducation();
-  }, []);
-
   const fetchEducation = async () => {
     setLoading(true);
     const { data, error } = await supabase
@@ -36,6 +32,10 @@ export default function AdminEducation() {
     if (data) setEducation(data);
     setLoading(false);
   };
+
+  useEffect(() => {
+    fetchEducation();
+  }, []);
 
   const handleAdd = () => {
     const newEdu: Education = {
@@ -70,17 +70,35 @@ export default function AdminEducation() {
 
   const handleSave = async () => {
     setSaving(true);
-    const toUpsert = education.map((edu, index) => ({
-      ...edu,
-      display_order: index
-    }));
+    try {
+      const existing = education.filter(e => e.id);
+      const newItems = education.filter(e => !e.id);
 
-    const { error } = await supabase.from("about_education").upsert(toUpsert);
+      // Update existing
+      await Promise.all(existing.map(async (edu) => {
+        const { id, ...rest } = edu;
+        const index = education.findIndex(e => e.id === id);
+        const { error } = await supabase
+          .from("about_education")
+          .update({ ...rest, display_order: index })
+          .eq("id", id);
+        if (error) throw error;
+      }));
 
-    if (!error) {
+      // Insert new
+      if (newItems.length > 0) {
+        const toInsert = newItems.map((edu) => {
+          const { id, ...rest } = edu;
+          const index = education.indexOf(edu);
+          return { ...rest, display_order: index };
+        });
+        const { error } = await supabase.from("about_education").insert(toInsert);
+        if (error) throw error;
+      }
+
       alert("Education updated successfully!");
       fetchEducation();
-    } else {
+    } catch (error: any) {
       alert("Error updating education: " + error.message);
     }
     setSaving(false);

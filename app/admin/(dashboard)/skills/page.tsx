@@ -20,10 +20,6 @@ export default function AdminSkills() {
   const [saving, setSaving] = useState(false);
   const supabase = createClient();
 
-  useEffect(() => {
-    fetchSkills();
-  }, []);
-
   const fetchSkills = async () => {
     setLoading(true);
     const { data, error } = await supabase
@@ -34,6 +30,10 @@ export default function AdminSkills() {
     if (data) setSkills(data);
     setLoading(false);
   };
+
+  useEffect(() => {
+    fetchSkills();
+  }, []);
 
   const handleAdd = () => {
     const newSkill: Skill = {
@@ -65,17 +65,35 @@ export default function AdminSkills() {
 
   const handleSave = async () => {
     setSaving(true);
-    const toUpsert = skills.map((skill, index) => ({
-      ...skill,
-      display_order: index
-    }));
+    try {
+      const existing = skills.filter(s => s.id);
+      const newItems = skills.filter(s => !s.id);
 
-    const { error } = await supabase.from("about_skills").upsert(toUpsert);
+      // Update existing
+      await Promise.all(existing.map(async (skill) => {
+        const { id, ...rest } = skill;
+        const index = skills.findIndex(s => s.id === id);
+        const { error } = await supabase
+          .from("about_skills")
+          .update({ ...rest, display_order: index })
+          .eq("id", id);
+        if (error) throw error;
+      }));
 
-    if (!error) {
+      // Insert new records in a single batch
+      if (newItems.length > 0) {
+        const toInsert = newItems.map((skill) => {
+          const { id, ...rest } = skill; 
+          const currentDisplayOrder = skills.indexOf(skill);
+          return { ...rest, display_order: currentDisplayOrder };
+        });
+        const { error } = await supabase.from("about_skills").insert(toInsert);
+        if (error) throw error;
+      }
+
       alert("Skills updated successfully!");
       fetchSkills();
-    } else {
+    } catch (error: any) {
       alert("Error updating skills: " + error.message);
     }
     setSaving(false);

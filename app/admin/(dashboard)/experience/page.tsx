@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -25,10 +26,6 @@ export default function AdminExperience() {
   const [saving, setSaving] = useState(false);
   const supabase = createClient();
 
-  useEffect(() => {
-    fetchExperiences();
-  }, []);
-
   const fetchExperiences = async () => {
     setLoading(true);
     const { data, error } = await supabase
@@ -39,6 +36,10 @@ export default function AdminExperience() {
     if (data) setExperiences(data);
     setLoading(false);
   };
+
+  useEffect(() => {
+    fetchExperiences();
+  }, []);
 
   const handleAdd = () => {
     const newExp: ExperienceData = {
@@ -75,20 +76,35 @@ export default function AdminExperience() {
 
   const handleSave = async () => {
     setSaving(true);
-    // This is a bit brute force: upsert everything
-    // Filter out temporary IDs for Supabase
-    const toUpsert = experiences.map(({ id, ...rest }, index) => ({
-      ...(id < 1000000000000 ? { id } : {}),
-      ...rest,
-      priority: index
-    }));
+    try {
+      const existing = experiences.filter(exp => exp.id < 1000000000000);
+      const newItems = experiences.filter(exp => exp.id >= 1000000000000);
 
-    const { error } = await supabase.from("experiences").upsert(toUpsert);
+      // Update existing
+      await Promise.all(existing.map(async (exp) => {
+        const { id, ...rest } = exp;
+        const index = experiences.findIndex(e => e.id === id);
+        const { error } = await supabase
+          .from("experiences")
+          .update({ ...rest, priority: index })
+          .eq("id", id);
+        if (error) throw error;
+      }));
 
-    if (!error) {
+      // Insert new
+      if (newItems.length > 0) {
+        const toInsert = newItems.map((exp) => {
+          const { id, ...rest } = exp;
+          const index = experiences.findIndex(e => e.id === exp.id);
+          return { ...rest, priority: index };
+        });
+        const { error } = await supabase.from("experiences").insert(toInsert);
+        if (error) throw error;
+      }
+
       alert("Experiences updated successfully!");
       fetchExperiences();
-    } else {
+    } catch (error: any) {
       alert("Error updating experiences: " + error.message);
     }
     setSaving(false);

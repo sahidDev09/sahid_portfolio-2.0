@@ -23,10 +23,6 @@ export default function AdminProjects() {
   const [saving, setSaving] = useState(false);
   const supabase = createClient();
 
-  useEffect(() => {
-    fetchProjects();
-  }, []);
-
   const fetchProjects = async () => {
     setLoading(true);
     const { data, error } = await supabase
@@ -37,6 +33,10 @@ export default function AdminProjects() {
     if (data) setProjects(data);
     setLoading(false);
   };
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
 
   const handleAdd = () => {
     const newProj: ProjectData = {
@@ -72,18 +72,35 @@ export default function AdminProjects() {
 
   const handleSave = async () => {
     setSaving(true);
-    const toUpsert = projects.map(({ id, ...rest }, index) => ({
-      ...(typeof id === "string" && id.startsWith("temp-") ? {} : { id }),
-      ...rest,
-      display_order: index
-    }));
+    try {
+      const existingProjects = projects.filter(p => typeof p.id === 'number' || (typeof p.id === 'string' && !p.id.startsWith('temp-')));
+      const newProjects = projects.filter(p => typeof p.id === 'string' && p.id.startsWith('temp-'));
 
-    const { error } = await supabase.from("projects").upsert(toUpsert);
+      // Update existing
+      await Promise.all(existingProjects.map(async (proj) => {
+        const { id, ...rest } = proj;
+        const index = projects.findIndex(p => p.id === id);
+        const { error } = await supabase
+          .from("projects")
+          .update({ ...rest, display_order: index })
+          .eq("id", id);
+        if (error) throw error;
+      }));
 
-    if (!error) {
+      // Insert new records in a single batch
+      if (newProjects.length > 0) {
+        const toInsert = newProjects.map((p) => {
+          const { id: _id, ...rest } = p;
+          const index = projects.findIndex(proj => proj.id === p.id);
+          return { ...rest, display_order: index };
+        });
+        const { error } = await supabase.from("projects").insert(toInsert);
+        if (error) throw error;
+      }
+
       alert("Projects updated successfully!");
       fetchProjects();
-    } else {
+    } catch (error: any) {
       alert("Error updating projects: " + error.message);
     }
     setSaving(false);
