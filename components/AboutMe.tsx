@@ -10,10 +10,10 @@ import { createClient } from '@/utils/supabase/client'
 const AboutMe = () => {
   const [bio, setBio] = useState<string>("")
   const [loading, setLoading] = useState(true)
-  const supabase = createClient()
 
   useEffect(() => {
     const fetchBio = async () => {
+      const supabase = createClient()
       try {
         const { data, error } = await supabase
           .from("about_profile")

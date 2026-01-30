@@ -23,10 +23,10 @@ interface ExperienceData {
 const Experience = () => {
   const [experiences, setExperiences] = useState<ExperienceData[]>([]);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
 
   useEffect(() => {
     const fetchExperiences = async () => {
+      const supabase = createClient();
       try {
         const { data, error } = await supabase
           .from("experiences")

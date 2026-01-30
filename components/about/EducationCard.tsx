@@ -18,10 +18,10 @@ interface Education {
 const EducationCard = () => {
   const [educationData, setEducationData] = useState<Education[]>([]);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
 
   useEffect(() => {
     const fetchEducation = async () => {
+      const supabase = createClient();
       try {
         const { data, error } = await supabase
           .from("about_education")

@@ -86,7 +86,6 @@ const DesignationTitle = ({ titles }: { titles: string[] }) => (
 );
 
 const Hero = ({ onLoad }: HeroProps) => {
-  const supabase = createClient();
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [heroData, setHeroData] = useState<HeroData | null>(null);
@@ -94,6 +93,7 @@ const Hero = ({ onLoad }: HeroProps) => {
 
   useEffect(() => {
     const fetchHeroData = async () => {
+      const supabase = createClient();
       try {
         const { data, error } = await supabase
           .from("hero_section")

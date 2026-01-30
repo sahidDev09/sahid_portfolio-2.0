@@ -158,10 +158,10 @@ export default function AppleActivityCard({
 }) {
     const [activities, setActivities] = useState<ActivityData[]>([]);
     const [loading, setLoading] = useState(true);
-    const supabase = createClient();
 
     useEffect(() => {
         const fetchStats = async () => {
+            const supabase = createClient();
             try {
                 const { data, error } = await supabase
                     .from("about_github_stats")

@@ -42,7 +42,6 @@ const iconMap: Record<string, LucideIcon> = {
 const ProfileCard = () => {
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
   const ref = useRef<HTMLDivElement>(null);
   const uniqueId = useId();
   const [isHovered, setIsHovered] = useState(false);
@@ -59,6 +58,7 @@ const ProfileCard = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
+      const supabase = createClient();
       try {
         const { data, error } = await supabase
           .from("about_profile")

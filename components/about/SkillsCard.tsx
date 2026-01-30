@@ -22,10 +22,10 @@ const categoryColors: Record<string, string> = {
 const SkillsCard = () => {
   const [skills, setSkills] = useState<Skill[]>([]);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
 
   useEffect(() => {
     const fetchSkills = async () => {
+      const supabase = createClient();
       try {
         const { data, error } = await supabase
           .from("about_skills")
