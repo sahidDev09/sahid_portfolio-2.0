@@ -21,7 +21,7 @@ export type Card = {
   codeUrl: string;
 };
 
-const smoothEasing = [EASING_X1, EASING_Y1, EASING_X2, EASING_Y2];
+const smoothEasing = [EASING_X1, EASING_Y1, EASING_X2, EASING_Y2] as const;
 
 export type ExpandableCardsProps = {
   cards: Card[];
