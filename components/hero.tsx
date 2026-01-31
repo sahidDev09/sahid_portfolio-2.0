@@ -192,7 +192,7 @@ const Hero = ({ onLoad }: HeroProps) => {
         <div className="absolute inset-0 z-0">
           <Image
             fill
-            src={heroData.hero_image_url}
+            src={(heroData.hero_image_url && (heroData.hero_image_url.startsWith('http') || heroData.hero_image_url.startsWith('/'))) ? heroData.hero_image_url : "/placeholder.svg"}
             alt={`${heroData.name} - Portfolio Portrait`}
             className="object-cover object-bottom pointer-events-none select-none"
             onLoad={() => setImageLoaded(true)}

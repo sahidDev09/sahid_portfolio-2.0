@@ -139,15 +139,16 @@ export default function ExpandableCards({
             }}
           >
             <div className="relative h-full w-[350px]">
-              {/* biome-ignore lint/performance/noImgElement: Using img for card image without Next.js Image optimizations */}
-              <img
+              <Image
+                src={(card.image && (card.image.startsWith('http') || card.image.startsWith('/'))) ? card.image : "/placeholder.svg"}
                 alt={card.title}
-                className="h-full w-full object-cover"
-                src={card.image || "/placeholder.svg"}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
               <div className="absolute inset-0 bg-black/40" />
               <div className="absolute inset-0 flex flex-col justify-between p-8 text-white">
-                <h2 className="font-bold text-3xl">{card.title}</h2>
+                <h2 className="font-bold text-3xl w-full bg-zinc-400/10 backdrop-blur-md rounded-md p-2">{card.title}</h2>
                 <div className="flex items-center gap-3 group">
                   <button
                     aria-label="View Project"

@@ -3,6 +3,7 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useState, useRef, useId, useEffect } from "react";
 import { Mail, MapPin, Sparkles, Github, Linkedin, Twitter, Facebook, Instagram, type LucideIcon } from "lucide-react";
+import Image from "next/image";
 import { ExpandableScreen, ExpandableScreenContent, ExpandableScreenTrigger } from "../ui/expandable-screen";
 import WaitlistForm from "../Process/WaitlistForm";
 import { createClient } from "@/utils/supabase/client";
@@ -228,10 +229,12 @@ const ProfileCard = () => {
               }}
               transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
             >
-              <img
-                src={profile.avatar_url}
+              <Image
+                src={(profile.avatar_url && (profile.avatar_url.startsWith('http') || profile.avatar_url.startsWith('/'))) ? profile.avatar_url : "/placeholder.svg"}
                 alt={profile.name}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 400px"
               />
               <div className="absolute inset-0 bg-black/10 pointer-events-none" />
             </motion.div>
