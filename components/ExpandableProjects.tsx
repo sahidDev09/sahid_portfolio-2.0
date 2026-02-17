@@ -18,7 +18,8 @@ const ExpandableProjects = () => {
       const { data, error } = await supabase
         .from("projects")
         .select("*")
-        .order("display_order", { ascending: true });
+        .order("display_order", { ascending: true })
+        .limit(5);
 
       if (error) {
         console.error("Error fetching projects:", error);

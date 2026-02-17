@@ -113,7 +113,7 @@ export default function ExpandableCards({
         </div>
       </div>
       <div
-        className="scrollbar-hide mx-auto flex w-full overflow-x-auto py-8 [&::-webkit-scrollbar]:hidden"
+        className="scrollbar-hide mx-auto flex w-full lg:justify-center gap-6 overflow-x-auto py-8 [&::-webkit-scrollbar]:hidden"
         ref={scrollRef}
         style={{
           scrollSnapType: "x mandatory",
@@ -125,7 +125,7 @@ export default function ExpandableCards({
             animate={{
               width: selectedCard === card.id ? "800px" : "350px",
             }}
-            className={`relative mr-6 h-[500px] shrink-0 cursor-pointer overflow-hidden rounded-3xl border border-white/10 bg-neutral-900 shadow-2xl ${cardClassName}`}
+            className={`relative h-[500px] shrink-0 cursor-pointer overflow-hidden rounded-3xl border border-white/10 bg-neutral-900 shadow-2xl ${cardClassName}`}
             data-card-id={card.id}
             key={card.id}
             layout

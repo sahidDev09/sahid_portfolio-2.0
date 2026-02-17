@@ -230,7 +230,7 @@ const ProfileCard = () => {
               transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
             >
               <Image
-                src={(profile.avatar_url && (profile.avatar_url.startsWith('http') || profile.avatar_url.startsWith('/'))) ? profile.avatar_url : "/placeholder.svg"}
+                src={(profile.avatar_url && (profile.avatar_url.startsWith('http') || profile.avatar_url.startsWith('/'))) ? profile.avatar_url : "/sahid_bento.jpg"}
                 alt={profile.name}
                 fill
                 className="object-cover"
