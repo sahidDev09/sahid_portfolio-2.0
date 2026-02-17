@@ -12,7 +12,8 @@ import {
   LogOut,
   Wrench,
   GraduationCap,
-  Github
+  Github,
+  FileText
 } from "lucide-react";
 
 export default function AdminLayout({
@@ -59,6 +60,7 @@ export default function AdminLayout({
           <SidebarLink href="/admin/github" icon={<Github size={20} />} label="GitHub Activity" />
           <SidebarLink href="/admin/experience" icon={<Briefcase size={20} />} label="Experience" />
           <SidebarLink href="/admin/projects" icon={<Layers size={20} />} label="Projects" />
+          <SidebarLink href="/admin/cv" icon={<FileText size={20} />} label="CV Management" />
         </nav>
 
         <div className="p-4 border-t border-white/10 space-y-2">
