@@ -1,11 +1,10 @@
 "use client";
 
-import { Play, ArrowUpRight, ChevronLeft, ChevronRight, Github, ExternalLink } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight, Github, ExternalLink } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-const AVATAR_SIZE = 96;
 const EASING_X1 = 0.4;
 const EASING_Y1 = 0.0;
 const EASING_X2 = 0.2;
@@ -40,17 +39,41 @@ export default function ExpandableCards({
 }: ExpandableCardsProps) {
   const [internalSelected, setInternalSelected] = useState<number | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1200);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const isMobile = windowWidth < 640;
+  const isTablet = windowWidth >= 640 && windowWidth < 1024;
+
+  const collapsedWidth = isMobile ? "300px" : "350px";
+  const expandedWidth = isMobile ? "90vw" : isTablet ? "700px" : "800px";
+  const imageWidth = isMobile ? "100%" : isTablet ? "300px" : "350px";
+  const detailsWidth = isMobile ? "100%" : isTablet ? "400px" : "450px";
+
+  const [isOverflowing, setIsOverflowing] = useState(false);
 
   const selectedCard =
     controlledSelected !== undefined ? controlledSelected : internalSelected;
 
   useEffect(() => {
-    if (scrollRef.current) {
-      const scrollWidth = scrollRef.current.scrollWidth;
-      const clientWidth = scrollRef.current.clientWidth;
-      scrollRef.current.scrollLeft = (scrollWidth - clientWidth) / 2;
-    }
-  }, []);
+    const checkOverflow = () => {
+      if (scrollRef.current) {
+        setIsOverflowing(scrollRef.current.scrollWidth > scrollRef.current.clientWidth);
+      }
+    };
+    
+    const timer = setTimeout(checkOverflow, 100);
+    window.addEventListener("resize", checkOverflow);
+    return () => {
+      window.removeEventListener("resize", checkOverflow);
+      clearTimeout(timer);
+    };
+  }, [cards, windowWidth, selectedCard]);
 
   const handleCardClick = (id: number) => {
     if (selectedCard === id) {
@@ -91,7 +114,7 @@ export default function ExpandableCards({
 
   return (
     <div
-      className={`relative flex w-full flex-col gap-4 overflow-hidden px-6 ${className}`}
+      className={`relative flex w-full flex-col gap-4 overflow-hidden px-4 md:px-6 ${className}`}
     >
       <div className="flex items-center justify-end px-4">
        
@@ -113,17 +136,16 @@ export default function ExpandableCards({
         </div>
       </div>
       <div
-        className="scrollbar-hide mx-auto flex w-full lg:justify-center gap-6 overflow-x-auto py-8 [&::-webkit-scrollbar]:hidden"
+        className={`scrollbar-hide flex w-full gap-4 md:gap-6 overflow-x-auto py-8 [&::-webkit-scrollbar]:hidden px-6 ${!isOverflowing ? 'justify-center' : 'justify-start'}`}
         ref={scrollRef}
         style={{
           scrollSnapType: "x mandatory",
-          scrollPaddingLeft: "20%",
         }}
       >
         {cards.map((card) => (
           <motion.div
             animate={{
-              width: selectedCard === card.id ? "800px" : "350px",
+              width: selectedCard === card.id ? expandedWidth : collapsedWidth,
             }}
             className={`relative h-[500px] shrink-0 cursor-pointer overflow-hidden rounded-3xl border border-white/10 bg-neutral-900 shadow-2xl ${cardClassName}`}
             data-card-id={card.id}
@@ -131,14 +153,17 @@ export default function ExpandableCards({
             layout
             onClick={() => handleCardClick(card.id)}
             style={{
-              scrollSnapAlign: "start",
+              scrollSnapAlign: "center",
             }}
             transition={{
               duration: 0.5,
               ease: smoothEasing,
             }}
           >
-            <div className="relative h-full w-[350px]">
+            <motion.div 
+               animate={{ width: selectedCard === card.id && isMobile ? "0px" : imageWidth }}
+               className="relative h-full"
+            >
               <Image
                 src={(card.image && (card.image.startsWith('http') || card.image.startsWith('/'))) ? card.image : "/placeholder.svg"}
                 alt={card.title}
@@ -147,25 +172,25 @@ export default function ExpandableCards({
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
               <div className="absolute inset-0 bg-black/40" />
-              <div className="absolute inset-0 flex flex-col justify-between p-8 text-white">
-                <h2 className="font-bold text-3xl w-full bg-zinc-400/10 backdrop-blur-md rounded-md p-2">{card.title}</h2>
+              <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-8 text-white">
+                <h2 className="font-bold text-2xl md:text-3xl w-full bg-zinc-400/10 backdrop-blur-md rounded-md p-2">{card.title}</h2>
                 <div className="flex items-center gap-3 group">
                   <button
                     aria-label="View Project"
-                    className="flex h-14 w-14 items-center justify-center rounded-full bg-white/20 backdrop-blur-md border border-white/10 transition-all duration-300 group-hover:scale-110 gradient-glow-hover text-white group-hover:text-white"
+                    className="flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-full bg-white/20 backdrop-blur-md border border-white/10 transition-all duration-300 group-hover:scale-110 gradient-glow-hover text-white group-hover:text-white"
                     type="button"
                   >
                     <ArrowUpRight className="h-6 w-6" />
                   </button>
-                  <span className="font-medium text-lg">View Project</span>
+                  <span className="font-medium text-base md:text-lg">View Project</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
             <AnimatePresence mode="popLayout">
               {selectedCard === card.id && (
                 <motion.div
-                  animate={{ width: "450px", opacity: 1, filter: "blur(0px)" }}
-                  className="absolute top-0 right-0 h-full bg-neutral-900/95 backdrop-blur-sm border-l border-white/10"
+                  animate={{ width: detailsWidth, opacity: 1, filter: "blur(0px)" }}
+                  className={`${isMobile ? "relative w-full" : "absolute top-0 right-0"} h-full bg-neutral-900/95 backdrop-blur-sm border-l border-white/10`}
                   exit={{ width: 0, opacity: 0, filter: "blur(5px)" }}
                   initial={{ width: 0, opacity: 0, filter: "blur(5px)" }}
                   transition={{
@@ -176,7 +201,7 @@ export default function ExpandableCards({
                 >
                   <motion.div
                     animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                    className="flex h-full flex-col justify-between p-8"
+                    className="flex h-full flex-col justify-between p-6 md:p-8"
                     exit={{ opacity: 0, x: 20, filter: "blur(5px)" }}
                     initial={{ opacity: 0, x: 20, filter: "blur(5px)" }}
                     transition={{ delay: 0.4, duration: 0.3 }}
