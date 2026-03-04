@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -82,9 +83,9 @@ export default function AdminLayout({
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto p-8 relative">
+      <main className="flex-1 overflow-y-auto p-8 relative" data-lenis-prevent>
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#8001ff]/5 rounded-full blur-[120px] pointer-events-none" />
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-[1600px] mx-auto w-full">
           {children}
         </div>
       </main>

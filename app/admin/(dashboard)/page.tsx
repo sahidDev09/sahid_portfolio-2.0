@@ -44,7 +44,7 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10">
         <div className="bg-zinc-900/40 border border-white/5 p-6 rounded-3xl backdrop-blur-sm">
           <h3 className="text-xl font-bold mb-4">Quick Edit Sections</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
             <QuickAction label="Update Hero Content" href="/admin/hero" />
             <QuickAction label="Add New Project" href="/admin/projects" />
             <QuickAction label="Update Experience" href="/admin/experience" />
