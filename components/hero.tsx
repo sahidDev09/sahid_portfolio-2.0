@@ -13,15 +13,16 @@ import { createClient } from "@/utils/supabase/client";
  * Data is fetched from Supabase 'hero_section' table.
  */
 
-interface HeroData {
+export interface HeroData {
   name: string;
   specialization: string;
   designation_titles: string[];
   hero_image_url: string;
 }
 
-interface HeroProps {
+export interface HeroProps {
   onLoad?: () => void;
+  isInPortal?: boolean;
 }
 
 // Reusable Status Badge Component
@@ -85,7 +86,7 @@ const DesignationTitle = ({ titles }: { titles: string[] }) => (
   </div>
 );
 
-const Hero = ({ onLoad }: HeroProps) => {
+const Hero = ({ onLoad, isInPortal = false }: HeroProps) => {
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [heroData, setHeroData] = useState<HeroData | null>(null);
@@ -132,7 +133,10 @@ const Hero = ({ onLoad }: HeroProps) => {
   if (!heroData) return null;
 
   return (
-    <section className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden text-white">
+    <section
+      className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden text-white"
+      aria-hidden={isInPortal ? true : undefined}
+      inert={isInPortal ? true : undefined}>
 
       {/* Background: Spline 3D Scene */}
       <iframe

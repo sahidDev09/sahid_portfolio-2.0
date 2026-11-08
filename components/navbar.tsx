@@ -7,8 +7,13 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { createClient } from "@/utils/supabase/client";
+import { cn } from "@/lib/utils";
 
-const Navbar = () => {
+interface NavbarProps {
+  className?: string;
+}
+
+const Navbar = ({ className }: NavbarProps = {}) => {
   const [activeLink, setActiveLink] = useState("Home");
   const [downloading, setDownloading] = useState(false);
   const [downloadProgress, setDownloadProgress] = useState(0);
@@ -110,7 +115,11 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 animate-fade-in w-[90%] md:w-auto">
+      <nav
+        className={cn(
+          "fixed top-6 left-1/2 -translate-x-1/2 z-50 animate-fade-in w-[90%] md:w-auto",
+          className
+        )}>
         <div className="flex items-center justify-between w-full gap-2 px-2 py-2 rounded-full bg-gray-600/20 backdrop-blur-xl border border-border/20">
           {/* Logo */}
           <a
