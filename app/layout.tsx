@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter_Tight, Bebas_Neue } from "next/font/google";
+import { Geist, Geist_Mono, Inter_Tight, Bebas_Neue, Oswald } from "next/font/google";
 import "./globals.css";
 import { ReactLenis } from "@/lib/lenis";
 
@@ -24,6 +24,12 @@ const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
 });
 
+const oswald = Oswald({
+  variable: "--font-oswald",
+  subsets: ["latin"],
+  weight: ["200", "300", "400", "500", "600", "700"],
+});
+
 export const metadata: Metadata = {
   title: "Sahid portfolio",
   description: "created by Sahid",
@@ -37,7 +43,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`dark ${geistSans.variable} ${geistMono.variable} ${interTight.variable} ${bebasNeue.variable}`}>
+      className={`dark ${geistSans.variable} ${geistMono.variable} ${interTight.variable} ${bebasNeue.variable} ${oswald.variable}`}>
       <ReactLenis root>
         <body
           className="antialiased font-primary bg-black relative overflow-x-hidden"

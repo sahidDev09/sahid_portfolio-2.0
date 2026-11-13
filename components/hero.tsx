@@ -51,9 +51,9 @@ const SpecializationText = ({ text }: { text: string }) => (
 
 // Name Component
 const NameTitle = ({ name }: { name: string }) => (
-  <h1 className="text-7xl sm:text-9xl 2xl:text-[12rem] italic sm:not-italic font-bold sm:font-extrabold font-heading sm:tracking-wider sm:flex sm:flex-col leading-none  md:px-4 py-2 rounded-lg">
-    I&apos;M{" "}
-    <span className="bg-linear-to-r from-[#8001ff] to-[#9832ff] bg-clip-text text-transparent stroke-orange-100 pr-5">
+  <h1 className="text-7xl sm:text-9xl 2xl:text-[12rem] not-italic font-normal font-thomas sm:tracking-wider sm:flex sm:flex-col leading-none md:px-4 py-2 rounded-lg">
+    <span className="font-oswald font-semibold">I&apos;M</span>{" "}
+    <span className="font-thomas bg-linear-to-r from-[#8001ff] to-[#9832ff] bg-clip-text text-transparent stroke-orange-100 pr-5">
       {name.toUpperCase()}
     </span>
   </h1>
@@ -61,7 +61,7 @@ const NameTitle = ({ name }: { name: string }) => (
 
 // Designation Component
 const DesignationTitle = ({ titles }: { titles: string[] }) => (
-  <div className="flex flex-col text-5xl sm:text-6xl 2xl:text-8xl font-bold font-heading uppercase tracking-wider md:px-4 py-2 rounded-lg">
+  <div className="flex flex-col text-5xl sm:text-6xl 2xl:text-8xl font-bold font-oswald uppercase tracking-wider md:px-4 py-2 rounded-lg">
     {titles.map((title, index) => {
       if (index === 0) {
         return (
