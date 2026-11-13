@@ -99,7 +99,7 @@ const Experience = () => {
                           alt={exp.company}
                           width={50}
                           height={50}
-                          className="rounded-2xl shrink-0"
+                          className="w-[50px] h-[50px] rounded-2xl shrink-0 object-contain p-1"
                         />
                       ) : (
                         <div

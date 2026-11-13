@@ -82,7 +82,7 @@ const WorkProcess = () => {
         <ExpandableScreenTrigger>
            <div className="text-center">
           <button className="px-8 py-4 bg-violet-600 hover:bg-violet-700 text-white font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-violet-600/25">
-            Let's Work Together
+            Let&apos;s Work Together
           </button>
         </div>
         </ExpandableScreenTrigger>

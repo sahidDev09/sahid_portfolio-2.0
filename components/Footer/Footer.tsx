@@ -37,7 +37,7 @@ export const Footer = () => {
             alt="Background Logo Top" 
             width={500} 
             height={500} 
-            className="object-contain"
+            className="w-[500px] h-[500px] object-contain"
           />
         </div>
         <div className="absolute bottom-0 left-0 z-0 opacity-[0.05] pointer-events-none -translate-x-1/4 translate-y-1/4">
@@ -46,7 +46,7 @@ export const Footer = () => {
             alt="Background Logo Bottom" 
             width={500} 
             height={500} 
-            className="object-contain"
+            className="w-[500px] h-[500px] object-contain"
           />
         </div>
         {/* Mac-style Top Bar (Header - Keeping as is but making it glass-friendly) */}

@@ -23,7 +23,7 @@ export const getAllPeople = () => {
   ];
 };
 
-export const getAvatarUrl = (url: string, size: number) => {
+export const getAvatarUrl = (url: string) => {
   return url;
 };
 

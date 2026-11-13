@@ -27,7 +27,7 @@ export const useSend = () => {
       } else {
         setError(result.error as string);
       }
-    } catch (err) {
+    } catch {
       setError("An unexpected error occurred");
     } finally {
       setIsSending(false);

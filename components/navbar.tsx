@@ -126,7 +126,7 @@ const Navbar = ({ className }: NavbarProps = {}) => {
             href="#"
             onClick={() => setActiveLink("Home")}
             className="px-4 py-2 text-lg 2xl:text-2xl font-bold text-white hover:opacity-90 transition-all">
-            <Image src="/sahid_nav.png" alt="Logo" width={32} height={32} />
+            <Image src="/sahid_nav.png" alt="Logo" width={32} height={32} className="w-8 h-8 object-contain" />
           </a>
 
           {/* Nav Links */}

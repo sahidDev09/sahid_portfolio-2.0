@@ -1,5 +1,4 @@
-import { motion } from "framer-motion";
-import { Github, GitCommit, FolderGit2, Star } from "lucide-react";
+import { Github } from "lucide-react";
 import AppleActivityCard from "../kokonutui/apple-activity-card";
 
 const GitHubActivityCard = () => {
