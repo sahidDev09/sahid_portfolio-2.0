@@ -32,7 +32,7 @@ const ProcessCard = ({ step, title, description, outcomes, delay = 0 }: ProcessC
   return (
     <div
       ref={cardRef}
-      className={`relative bg-zinc-900 border border-zinc-800 rounded-2xl p-6 group cursor-pointer hover:-translate-y-2 transition-all duration-500 ease-out ${
+      className={`relative bg-zinc-900/80 border border-zinc-800 rounded-2xl p-6 group cursor-pointer hover:-translate-y-2 transition-all duration-500 ease-out ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
       }`}
     >

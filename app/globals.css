@@ -61,6 +61,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Array";
+  src: url("/assets/fonts/Array-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --radius: 0.625rem;
   --gradient-start: 270 100% 50%;
@@ -83,6 +91,7 @@
 
   --font-heading: "HeadingNow", sans-serif;
   --font-thomas: "Thomas", sans-serif;
+  --font-array: "Array", sans-serif;
   --font-oswald: var(--font-oswald, "Oswald", sans-serif);
 }
 
@@ -123,6 +132,10 @@
 @layer utilities {
   .font-thomas {
     font-family: var(--font-thomas, "Thomas"), sans-serif;
+  }
+
+  .font-array {
+    font-family: var(--font-array, "Array"), sans-serif;
   }
 
   .font-oswald,

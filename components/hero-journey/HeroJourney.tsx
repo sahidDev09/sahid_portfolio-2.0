@@ -188,7 +188,7 @@ export const HeroJourney: React.FC<HeroJourneyProps> = ({
     const calculateStyles = (progress: number) => {
       if (!metrics) return null;
       // Complete zoom cleanly without late deceleration
-      const p = clamp(progress / 0.92);
+      const p = clamp(progress / 0.95);
       const t = Math.pow(p, 1.3);
       const scaleMultiplier = Math.exp(Math.log(metrics.end) * t);
       const tiltAngle = 30 * Math.sin(Math.PI * t);
@@ -263,14 +263,15 @@ export const HeroJourney: React.FC<HeroJourneyProps> = ({
       rafId = 0;
       if (!metrics) return;
       const progress = clamp((window.scrollY - metrics.top) / metrics.travel);
-      if (Math.abs(progress - lastProgress) < 0.0002) return;
+      if (Math.abs(progress - lastProgress) < 0.0002 && progress < 1 && progress > 0) return;
       lastProgress = progress;
 
-      const isDone = progress >= 0.94;
-      const p = clamp(progress / 0.92);
+      const isDone = progress >= 1;
+      const p = clamp(progress / 0.95);
       setAttr("data-done", isDone);
       setAttr("data-flying", progress > 0 && !isDone);
       setAttr("data-copy-gone", p >= 0.25);
+      setAttr("data-hero-reveal", progress >= 0.6);
 
       updateFrame(progress);
     };

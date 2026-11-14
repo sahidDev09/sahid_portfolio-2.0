@@ -1,0 +1,299 @@
+/* Exact Footer Styles matching brudcode.com */
+
+.brud-footer {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto auto;
+  min-height: min(100svh, 920px);
+  padding: clamp(90px, 15vh, 180px) clamp(20px, 4vw, 64px) clamp(22px, 3.4vh, 40px);
+  background: #000000;
+}
+
+.brud-footer__plate {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 15%,
+    rgba(0, 0, 0, 0.5) 35%,
+    #000000 65%,
+    #000000 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 15%,
+    rgba(0, 0, 0, 0.5) 35%,
+    #000000 65%,
+    #000000 100%
+  );
+}
+
+.brud-footer__image {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  object-fit: cover;
+  object-position: 50% 100%;
+  /* Shifts the background aura from orange into the website's signature purple palette */
+  filter: hue-rotate(245deg) saturate(1.3) brightness(0.95);
+}
+
+.brud-footer__fade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    #000000,
+    #000000 6%,
+    rgba(0, 0, 0, 0.94) 14%,
+    rgba(0, 0, 0, 0.82) 22%,
+    rgba(0, 0, 0, 0.64) 31%,
+    rgba(0, 0, 0, 0.44) 40%,
+    rgba(0, 0, 0, 0.26) 49%,
+    rgba(0, 0, 0, 0.12) 58%,
+    rgba(0, 0, 0, 0.04) 66%,
+    rgba(0, 0, 0, 0) 74%
+    #000000 0%,
+    #000000 20%,
+    rgba(0, 0, 0, 0.95) 32%,
+    rgba(0, 0, 0, 0.8) 45%,
+    rgba(0, 0, 0, 0.55) 60%,
+    rgba(0, 0, 0, 0.25) 75%,
+    rgba(0, 0, 0, 0.05) 88%,
+    transparent 100%
+  );
+}
+
+.brud-footer__cta {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: clamp(20px, 3.2vh, 34px);
+  text-align: center;
+  margin-bottom: clamp(60px, 10vh, 120px);
+}
+
+.brud-footer__title {
+  margin: 0;
+  max-width: 24ch;
+  font-family: var(--font-primary), var(--font-sans), sans-serif;
+  font-weight: 500;
+  font-size: clamp(34px, 5.2vw, 64px);
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+  text-wrap: balance;
+}
+
+.brud-footer__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.brud-btn-solid {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: clamp(44px, 3.8vw, 52px);
+  padding: 0 clamp(20px, 2vw, 28px);
+  border-radius: 9999px;
+  background: #ffffff;
+  color: #08090b;
+  font-family: var(--font-primary), var(--font-sans), sans-serif;
+  font-size: clamp(14px, 1.05vw, 15.5px);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+}
+.brud-btn-solid:hover {
+  background: #ebebee;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(255, 255, 255, 0.16);
+}
+.brud-btn-solid:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.brud-copypill {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  height: clamp(44px, 3.8vw, 52px);
+  padding: 0 18px 0 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 9999px;
+  background: rgba(12, 13, 16, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #e4e7ec;
+  font-family: var(--font-primary), var(--font-sans), sans-serif;
+  font-size: clamp(13px, 1vw, 15px);
+  font-weight: 500;
+  letter-spacing: -0.008em;
+  white-space: nowrap;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.brud-copypill:hover {
+  background: rgba(24, 25, 30, 0.85);
+  border-color: rgba(128, 1, 255, 0.55);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5), 0 0 24px rgba(128, 1, 255, 0.25);
+}
+.brud-copypill:active {
+  transform: translateY(0) scale(0.97);
+}
+.brud-copypill[data-copied] {
+  border-color: rgba(128, 1, 255, 0.75);
+  color: #ffffff;
+}
+
+.brud-copypill__faces {
+  display: inline-flex;
+  align-items: center;
+}
+.brud-copypill__face {
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: #0d0e10;
+  color: #ffffff;
+}
+.brud-copypill__face + .brud-copypill__face {
+  margin-left: -9px;
+}
+.brud-copypill__face svg {
+  width: 15px;
+  height: 15px;
+}
+
+.brud-copypill__copy {
+  width: 17px;
+  height: 17px;
+  flex: none;
+  color: #8f96a3;
+  transition: color 0.2s ease;
+}
+.brud-copypill:hover .brud-copypill__copy {
+  color: #ffffff;
+}
+.brud-copypill[data-copied] .brud-copypill__copy {
+  color: #c084fc;
+}
+
+.brud-footer__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px clamp(20px, 3vw, 48px);
+  padding-bottom: clamp(26px, 4.4vh, 54px);
+  width: 100%;
+}
+
+.brud-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(16px, 2vw, 32px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.brud-footer__link {
+  font-size: 13.5px;
+  color: #9ba1ad;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.brud-footer__link:hover {
+  color: #ffffff;
+}
+
+.brud-footer__legal {
+  margin: 0;
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  color: #646b78;
+}
+
+.brud-footer__wordmark {
+  width: 100%;
+  line-height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.brud-footer__word {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.12em;
+  white-space: nowrap;
+  font-family: "Array", sans-serif;
+  font-size: clamp(38px, 14.5vw, 210px);
+  line-height: 0.9;
+  color: #ffffff;
+  text-shadow: 0 0 28px rgba(128, 1, 255, 0.45);
+}
+
+.brud-footer__glyph {
+  width: 0.88em;
+  height: 0.88em;
+  flex: none;
+  object-fit: contain;
+  filter: drop-shadow(0 0 22px rgba(128, 1, 255, 0.65));
+}
+
+@media (max-width: 640px) {
+  .brud-footer {
+    padding-top: clamp(60px, 12vh, 90px);
+    padding-bottom: 24px;
+  }
+  .brud-footer__actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .brud-btn-solid,
+  .brud-copypill {
+    width: 100%;
+    justify-content: center;
+  }
+  .brud-footer__bar {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+    padding-bottom: 28px;
+  }
+  .brud-footer__links {
+    justify-content: center;
+    gap: 18px;
+  }
+}

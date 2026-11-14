@@ -279,7 +279,6 @@
   opacity: 1;
   pointer-events: auto;
   visibility: visible;
-  transition: opacity 0.3s ease;
 }
 
 
