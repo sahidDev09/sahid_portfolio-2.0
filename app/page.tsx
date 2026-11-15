@@ -23,10 +23,6 @@ export default function Home() {
             </div>
           }
           lede="Think like a designer. Build like an engineer. Lead like a founder."
-          primaryActionText="Explore work"
-          primaryActionHref="#projects"
-          secondaryActionText="About me"
-          secondaryActionHref="#about"
           metaItems={[
             "Design Engineer",
             "Full-Stack",

@@ -67,6 +67,8 @@ export const HeroJourney: React.FC<HeroJourneyProps> = ({
       mark,
       halo: haloRef.current,
       headline: journey.querySelector(".headline"),
+      titleBox: journey.querySelector(".headline__title_box"),
+      sloganBox: journey.querySelector(".headline__slogan_box"),
       points: journey.querySelector(".points"),
       meta: journey.querySelector(".hero__meta"),
       portal,
@@ -209,7 +211,11 @@ export const HeroJourney: React.FC<HeroJourneyProps> = ({
           transform: `scale(${formatFixed(1 + 2.4 * t, 4)}) translate(-50%, -50%)`,
           opacity: formatFixed(1 - clamp((p - 0.3) / 0.45), 4),
         },
-        headline: {
+        titleBox: {
+          transform: `translate(${formatFixed(-110 * copyFade, 2)}px, 0px) scale(${formatFixed(headlineScale, 4)})`,
+          opacity: formatFixed(1 - copyFade, 4),
+        },
+        sloganBox: {
           transform: `translate(${formatFixed(-110 * copyFade, 2)}px, 0px) scale(${formatFixed(headlineScale, 4)})`,
           opacity: formatFixed(1 - copyFade, 4),
         },
@@ -328,32 +334,50 @@ export const HeroJourney: React.FC<HeroJourneyProps> = ({
         <div className="hero__grain" />
         <div className="hero__floor" />
 
-        {/* Central Logo Art & Dynamic Halo */}
-        <div className="hero__art" aria-hidden="true">
-          <div ref={haloRef} className="hero__halo" />
-          <div ref={markRef} className="hero__mark">
-            <GlyphLogo />
-          </div>
-        </div>
-
         {/* 3-Column Hero Stage */}
         <div className="hero__stage">
-          {/* Column 1: Morphing headline & action buttons */}
+          {/* Column 1: Morphing headline & actions */}
           <div className="headline">
-            <MorphingHeadline />
-            <p className="headline__lede">{lede}</p>
-            <div className="headline__actions">
-              <a href={primaryActionHref} className="btn btn--solid">
-                {primaryActionText}
-              </a>
-              <a href={secondaryActionHref} className="btn btn--muted">
-                {secondaryActionText}
-              </a>
+            <div className="headline__title_box">
+              <MorphingHeadline />
+            </div>
+            <div className="headline__slogan_box">
+              <p className="headline__lede">{lede}</p>
+              <div className="headline__actions">
+                <div className="flex items-center gap-3 text-neutral-400 select-none">
+                  <div className="relative flex h-7 w-4.5 items-start justify-center rounded-full border border-white/20 p-1">
+                    <div className="h-1.5 w-1 rounded-full bg-[#8001ff] shadow-[0_0_8px_#8001ff] animate-bounce" />
+                  </div>
+                  <div className="flex items-center gap-1.5 text-xs sm:text-sm font-medium tracking-widest uppercase text-neutral-300">
+                    <span>Scroll down</span>
+                    <svg
+                      className="w-4 h-4 animate-bounce text-[#8001ff]"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round">
+                      <path d="M12 5v14M19 12l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Central Logo Art & Dynamic Halo */}
+          <div className="hero__art" aria-hidden="true">
+            <div ref={haloRef} className="hero__halo" />
+            <div ref={markRef} className="hero__mark">
+              <GlyphLogo />
             </div>
           </div>
 
           {/* Column 3: Interactive Points */}
-          <InteractivePoints />
+          <div className="md:ml-24">
+            <InteractivePoints />
+          </div>
         </div>
 
         {/* Hero Footer Meta Badges */}

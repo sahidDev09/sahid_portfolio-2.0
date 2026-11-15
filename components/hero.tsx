@@ -235,7 +235,7 @@ const Hero = ({ onLoad, isInPortal = false }: HeroProps) => {
           </p>
 
           {/* Main Title */}
-          <h1 className="font-thomas text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-[4.25rem] 2xl:text-[5.25rem] font-bold tracking-tight uppercase leading-[1.08] text-white">
+          <h1 className="font-thomas text-4xl sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-[4.25rem] 2xl:text-[5.25rem] font-bold tracking-tight uppercase leading-[1.08] text-white">
             <span ref={wrapperRef} className="inline-block w-full">
               <span
                 ref={line1Ref}
