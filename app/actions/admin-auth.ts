@@ -1,24 +1,22 @@
 "use server";
 
 import { Resend } from "resend";
+import crypto from "crypto";
 
-interface LoginTokenData {
-  code: string;
-  email: string;
-  expiresAt: number;
+function getSecretKey(): string {
+  return (
+    process.env.RESEND_API_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY ||
+    "portfolio-admin-secure-auth-salt-2026"
+  );
 }
-
-// In-memory token store (valid for 15 minutes)
-let activeTokens: LoginTokenData[] = [];
 
 function getAllowedAdminEmails(): string[] {
   const allowed = new Set<string>();
 
-  // Configured emails from environment
   if (process.env.ADMIN_EMAIL) allowed.add(process.env.ADMIN_EMAIL.toLowerCase().trim());
   if (process.env.MY_EMAIL) allowed.add(process.env.MY_EMAIL.toLowerCase().trim());
 
-  // Default known admin addresses
   allowed.add("sahidofficial.dev@gmail.com");
   allowed.add("iamsahidofficial99@gmail.com");
 
@@ -46,18 +44,24 @@ export async function sendLoginCode(emailInput: string) {
 
   // Generate 6-digit code
   const code = Math.floor(100000 + Math.random() * 900000).toString();
-  const expiresAt = Date.now() + 15 * 60 * 1000; // 15 mins
+  // Valid for 15 minutes (with a 2-minute clock skew buffer)
+  const expiresAt = Date.now() + 15 * 60 * 1000;
 
-  // Clean old tokens and save
-  activeTokens = activeTokens.filter((t) => t.expiresAt > Date.now());
-  activeTokens.push({ code, email: cleanEmail, expiresAt });
+  // Stateless cryptographic signature so it persists across serverless instances / Vercel lambdas
+  const secret = getSecretKey();
+  const hash = crypto
+    .createHmac("sha256", secret)
+    .update(`${code}:${expiresAt}:${cleanEmail}`)
+    .digest("hex");
+
+  const tokenPayload = JSON.stringify({ hash, expiresAt, email: cleanEmail });
+  const verificationToken = Buffer.from(tokenPayload).toString("base64");
 
   const resend = new Resend(apiKey);
 
-  // Attempt sending to user's entered email, fallback to Resend verified account email if needed
   let targetEmail = cleanEmail;
   try {
-    let sendResult = await resend.emails.send({
+    const sendResult = await resend.emails.send({
       from: "Portfolio Admin <onboarding@resend.dev>",
       to: [targetEmail],
       subject: `Admin Login Code: ${code}`,
@@ -85,7 +89,6 @@ export async function sendLoginCode(emailInput: string) {
     });
 
     if (sendResult.error) {
-      // If error indicates unverified domain recipient limitation, fallback to registered account email
       if (targetEmail !== "sahidofficial.dev@gmail.com") {
         targetEmail = "sahidofficial.dev@gmail.com";
         const retryResult = await resend.emails.send({
@@ -126,6 +129,7 @@ export async function sendLoginCode(emailInput: string) {
     return {
       success: true,
       message: `Verification code sent to ${targetEmail}. Please check your inbox.`,
+      token: verificationToken,
     };
   } catch (err: any) {
     return {
@@ -135,19 +139,49 @@ export async function sendLoginCode(emailInput: string) {
   }
 }
 
-export async function verifyLoginCode(code: string) {
+export async function verifyLoginCode(code: string, verificationToken?: string) {
   const cleanCode = code.trim();
-
-  // Filter expired tokens
-  activeTokens = activeTokens.filter((t) => t.expiresAt > Date.now());
-
-  const tokenIndex = activeTokens.findIndex((t) => t.code === cleanCode);
-  if (tokenIndex === -1) {
-    return { success: false, error: "Invalid or expired verification code." };
+  if (!cleanCode || cleanCode.length !== 6) {
+    return { success: false, error: "Please enter a valid 6-digit code." };
   }
 
-  // Remove used token
-  activeTokens.splice(tokenIndex, 1);
+  if (!verificationToken) {
+    return {
+      success: false,
+      error: "Session missing or expired. Please click 'Resend code'.",
+    };
+  }
 
-  return { success: true };
+  try {
+    const payloadStr = Buffer.from(verificationToken, "base64").toString("utf-8");
+    const { hash, expiresAt, email } = JSON.parse(payloadStr);
+
+    if (!hash || !expiresAt || !email) {
+      return { success: false, error: "Invalid verification session." };
+    }
+
+    if (Date.now() > expiresAt) {
+      return {
+        success: false,
+        error: "Verification code has expired. Please click 'Resend code'.",
+      };
+    }
+
+    const secret = getSecretKey();
+    const expectedHash = crypto
+      .createHmac("sha256", secret)
+      .update(`${cleanCode}:${expiresAt}:${email}`)
+      .digest("hex");
+
+    if (hash !== expectedHash) {
+      return { success: false, error: "Invalid verification code. Please check your email." };
+    }
+
+    return { success: true };
+  } catch (err) {
+    return {
+      success: false,
+      error: "Failed to verify code. Please request a new one.",
+    };
+  }
 }
