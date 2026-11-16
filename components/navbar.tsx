@@ -110,6 +110,8 @@ const Navbar = ({ className }: NavbarProps = {}) => {
   const navLinks = [
     { label: "Home", href: "#" },
     { label: "About", href: "#about" },
+    { label: "Experience", href: "#experience" },
+    { label: "Process", href: "#process" },
     { label: "Projects", href: "#projects" },
   ];
 
@@ -117,7 +119,7 @@ const Navbar = ({ className }: NavbarProps = {}) => {
     <>
       <nav
         className={cn(
-          "fixed top-6 left-1/2 -translate-x-1/2 z-50 animate-fade-in w-[90%] md:w-auto",
+          "fixed top-6 left-1/2 -translate-x-1/2 z-[100] animate-fade-in w-[90%] md:w-auto",
           className
         )}>
         <div className="flex items-center justify-between w-full gap-2 px-2 py-2 rounded-full bg-gray-600/20 backdrop-blur-xl border border-border/20">
@@ -138,7 +140,7 @@ const Navbar = ({ className }: NavbarProps = {}) => {
                   key={link.label}
                   href={link.href}
                   onClick={() => setActiveLink(link.label)}
-                  className={`px-4 py-2 text-sm 2xl:text-lg font-medium transition-all duration-300 rounded-full ${
+                  className={`px-3.5 py-1.5 text-sm 2xl:text-base font-medium transition-all duration-300 rounded-full ${
                     isActive
                       ? "text-white bg-linear-to-r from-[#8001ff] to-[#9832ff]"
                       : "text-muted-foreground hover:text-white"

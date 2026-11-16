@@ -46,7 +46,7 @@ const Experience = () => {
   }, []);
 
   return (
-    <section className="relative container mx-auto py-10 px-6 md:px-0" id="experience">
+    <div className="relative container mx-auto py-10 px-6 md:px-0">
       {/* Background gradients */}
       <div className="absolute top-0 right-0  h-96 bg-violet-600/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-0 h-72 bg-blue-600/5 rounded-full blur-3xl opacity-50" />
@@ -160,7 +160,7 @@ const Experience = () => {
           )}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
