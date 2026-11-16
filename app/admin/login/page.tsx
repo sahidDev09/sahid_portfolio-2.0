@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Mail, KeyRound, ArrowLeft, CheckCircle2, ShieldCheck } from "lucide-react";
 import { sendLoginCode, verifyLoginCode } from "@/app/actions/admin-auth";
@@ -9,11 +9,26 @@ export default function AdminLogin() {
   const [step, setStep] = useState<"email" | "code">("email");
   const [email, setEmail] = useState("sahidofficial.dev@gmail.com");
   const [code, setCode] = useState("");
+  const [token, setToken] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const router = useRouter();
+
+  useEffect(() => {
+    try {
+      const savedToken = sessionStorage.getItem("admin_login_token");
+      const savedEmail = sessionStorage.getItem("admin_login_email");
+      if (savedToken) {
+        setToken(savedToken);
+        if (savedEmail) setEmail(savedEmail);
+        setStep("code");
+      }
+    } catch {
+      // Ignore storage errors
+    }
+  }, []);
 
   const handleSendCode = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,7 +38,12 @@ export default function AdminLogin() {
 
     try {
       const res = await sendLoginCode(email);
-      if (res.success) {
+      if (res.success && res.token) {
+        setToken(res.token);
+        try {
+          sessionStorage.setItem("admin_login_token", res.token);
+          sessionStorage.setItem("admin_login_email", email);
+        } catch {}
         setSuccessMsg(res.message || "Verification code sent to your email.");
         setStep("code");
       } else {
@@ -42,8 +62,13 @@ export default function AdminLogin() {
     setError("");
 
     try {
-      const res = await verifyLoginCode(code);
+      const currentToken = token || sessionStorage.getItem("admin_login_token") || "";
+      const res = await verifyLoginCode(code, currentToken);
       if (res.success) {
+        try {
+          sessionStorage.removeItem("admin_login_token");
+          sessionStorage.removeItem("admin_login_email");
+        } catch {}
         localStorage.setItem("admin_auth", "true");
         router.push("/admin");
       } else {
@@ -54,6 +79,18 @@ export default function AdminLogin() {
       setError("An error occurred during verification.");
       setLoading(false);
     }
+  };
+
+  const handleResetToEmail = () => {
+    try {
+      sessionStorage.removeItem("admin_login_token");
+      sessionStorage.removeItem("admin_login_email");
+    } catch {}
+    setToken("");
+    setCode("");
+    setError("");
+    setSuccessMsg("");
+    setStep("email");
   };
 
   return (
@@ -174,12 +211,7 @@ export default function AdminLogin() {
 
               <button
                 type="button"
-                onClick={() => {
-                  setError("");
-                  setSuccessMsg("");
-                  setCode("");
-                  setStep("email");
-                }}
+                onClick={handleResetToEmail}
                 className="inline-flex items-center gap-1.5 text-zinc-400 hover:text-white text-sm transition-colors cursor-pointer"
               >
                 <ArrowLeft size={15} />
