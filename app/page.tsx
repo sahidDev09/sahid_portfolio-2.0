@@ -33,7 +33,7 @@ export default function Home() {
         />
 
         {/* 2. Continuation Landing Hero that smoothly takes over interactive state */}
-        <div className="landing-hero-continuation relative z-10">
+        <div className="landing-hero-continuation relative z-50">
           <Navbar className="landing-hero-nav" />
           <Hero />
         </div>
@@ -47,10 +47,14 @@ export default function Home() {
         </section>
 
         {/* 5. Experience Section */}
-        <Experience />
+        <section id="experience" className="scroll-mt-28">
+          <Experience />
+        </section>
 
         {/* 6. Work Process */}
-        <WorkProcess />
+        <section id="process" className="scroll-mt-28">
+          <WorkProcess />
+        </section>
 
         {/* 7. Projects */}
         <section id="projects" className="scroll-mt-28">

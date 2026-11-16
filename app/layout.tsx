@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter_Tight, Bebas_Neue, Oswald } from "next/font/google";
 import "./globals.css";
 import { ReactLenis } from "@/lib/lenis";
+import { SoundToggle } from "@/components/SoundToggle";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -60,6 +61,7 @@ export default function RootLayout({
               backgroundPosition: "0 0, 0 0",
             }}
           />
+          <SoundToggle />
           <div className="relative z-10">{children}</div>
         </body>
       </ReactLenis>
