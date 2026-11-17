@@ -25,7 +25,7 @@ const fallbackProfile: ProfileData = {
   name: "Sahid",
   title: "Full Stack Developer",
   handle: "@sahid",
-  location: "Dhaka, Bangladesh",
+  location: "Sylhet, Bangladesh",
   email: "iamsahidofficial99@gmail.com",
   avatar_url: "/sahid_bento.jpg",
   social_links: [
