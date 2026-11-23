@@ -278,6 +278,7 @@ export const HeroJourney: React.FC<HeroJourneyProps> = ({
       setAttr("data-flying", progress > 0 && !isDone);
       setAttr("data-copy-gone", p >= 0.25);
       setAttr("data-hero-reveal", progress >= 0.6);
+      setAttr("data-swarm", progress >= 0.7);
 
       updateFrame(progress);
     };
@@ -318,7 +319,7 @@ export const HeroJourney: React.FC<HeroJourneyProps> = ({
           el.style.opacity = "";
         }
       });
-      ["data-live", "data-done", "data-flying", "data-copy-gone"].forEach((attr) =>
+      ["data-live", "data-done", "data-flying", "data-copy-gone", "data-swarm"].forEach((attr) =>
         journey.removeAttribute(attr)
       );
       journey.style.height = "";
