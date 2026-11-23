@@ -15,6 +15,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { useLenis } from "@/lib/lenis";
 import GlassIcons, { type GlassIconsItem } from "./ui/GlassIcons";
+import Signature from "./Signature";
 
 const easeInOutCubic = (e: number) => (e < 0.5 ? 4 * e * e * e : 1 - (-2 * e + 2) ** 3 / 2);
 
@@ -48,6 +49,7 @@ export interface HeroProps {
 
 const Hero = ({ onLoad, isInPortal = false }: HeroProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [playSignature, setPlaySignature] = useState(false);
   const lenis = useLenis();
   const sectionRef = useRef<HTMLElement>(null);
   const wrapperRef = useRef<HTMLSpanElement>(null);
@@ -182,6 +184,9 @@ const Hero = ({ onLoad, isInPortal = false }: HeroProps) => {
         applyMorphState(l1, 1);
         applyMorphState(l2, 1);
         wrap.style.filter = "none";
+        if (!isInPortal) {
+          setPlaySignature(true);
+        }
       } else if (isReveal) {
         triggerReveal();
       } else {
@@ -192,6 +197,10 @@ const Hero = ({ onLoad, isInPortal = false }: HeroProps) => {
         const nowDone = journey.hasAttribute("data-done");
         const nowReveal = journey.hasAttribute("data-hero-reveal");
         const nowActive = nowDone || nowReveal;
+
+        if (nowDone && !isInPortal) {
+          setPlaySignature(true);
+        }
 
         if (nowReveal && !hasTriggered) {
           hasTriggered = true;
@@ -220,6 +229,9 @@ const Hero = ({ onLoad, isInPortal = false }: HeroProps) => {
         ([entry]) => {
           if (entry.isIntersecting) {
             triggerReveal();
+            if (!isInPortal) {
+              setPlaySignature(true);
+            }
           }
         },
         { threshold: 0.1 }
@@ -338,6 +350,11 @@ const Hero = ({ onLoad, isInPortal = false }: HeroProps) => {
             </button>
           </div>
 
+          {/* Centered Signature with Handwriting Write Animation */}
+          <div className="mt-12 sm:mt-16 flex flex-col items-center justify-center text-center w-full">
+            <Signature play={playSignature} />
+          </div>
+
         </div>
       </div>
 
@@ -400,7 +417,7 @@ const Hero = ({ onLoad, isInPortal = false }: HeroProps) => {
                 </p>
                 <div className="flex items-center gap-1.5 mt-2 text-xs text-neutral-300">
                   <MapPin className="w-3.5 h-3.5 text-[#8001ff]" />
-                  <span>Dhaka, Bangladesh</span>
+                  <span>Sylhet, Bangladesh</span>
                 </div>
               </div>
 
