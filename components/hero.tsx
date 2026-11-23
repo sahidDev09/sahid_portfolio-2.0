@@ -16,6 +16,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLenis } from "@/lib/lenis";
 import GlassIcons, { type GlassIconsItem } from "./ui/GlassIcons";
 import Signature from "./Signature";
+import SwarmCursors from "./SwarmCursors";
 
 const easeInOutCubic = (e: number) => (e < 0.5 ? 4 * e * e * e : 1 - (-2 * e + 2) ** 3 / 2);
 
@@ -294,6 +295,7 @@ const Hero = ({ onLoad, isInPortal = false }: HeroProps) => {
       className="relative flex min-h-screen w-full items-center overflow-hidden bg-black text-white"
       aria-hidden={isInPortal ? true : undefined}
       inert={isInPortal ? true : undefined}>
+      {!isInPortal && <SwarmCursors />}
       {/* Background Hero Image */}
       <div className="absolute inset-0 z-0">
         <Image
