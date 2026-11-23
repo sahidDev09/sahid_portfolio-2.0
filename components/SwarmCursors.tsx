@@ -41,7 +41,7 @@ const BOX = "#4f7cff";
 const visible = (el: Element) => el.checkVisibility?.({ visibilityProperty: true }) ?? true;
 
 
-const TRAIL_GAP = 5; // frames of mouse history between trailing cursors
+const FLOCK_BACK = 10; // frames of mouse history the flock centre trails behind
 const STOP_MS = 180; // mouse idle this long = stopped, form the ring
 const DRAW_MS = 650;
 const FLY_MAX_MS = 600; // start drawing even if the target keeps moving (marquees, floating cards)
@@ -133,6 +133,10 @@ export default function SwarmCursors() {
       x: Math.random() * innerWidth,
       y: innerHeight + 40,
       rot: 0,
+      // Fixed spot in a loose flock behind the mouse, and a personal follow speed.
+      ox: (Math.random() - 0.5) * 110,
+      oy: (Math.random() - 0.5) * 60,
+      speed: 0.1 + Math.random() * 0.1,
       task: null as Task | null,
     }));
     const mouse = { x: innerWidth / 2, y: innerHeight / 2 };
@@ -233,6 +237,7 @@ export default function SwarmCursors() {
 
     const hist: { x: number; y: number }[] = [];
     let lastMove = -Infinity;
+    let heading = Math.PI; // radians; flock faces left until the mouse moves
     const onMove = (e: PointerEvent) => {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
@@ -258,7 +263,11 @@ export default function SwarmCursors() {
       if (hist.length > 200) hist.shift();
       const moving = now - lastMove < STOP_MS;
       const at = (back: number) => hist[Math.max(0, hist.length - 1 - back)];
-      let idleIdx = 0;
+      // Shared heading so the whole flock points the same way.
+      const back = at(6);
+      if (Math.hypot(mouse.x - back.x, mouse.y - back.y) > 2) {
+        heading = Math.atan2(mouse.y - back.y, mouse.x - back.x);
+      }
       agents.forEach((a, i) => {
         const cursor = cursors[i];
         const box = boxes[i];
@@ -341,17 +350,15 @@ export default function SwarmCursors() {
             }
           }
         } else if (moving) {
-          // Follow the mouse in a single-file trail, all pointing the way it's heading.
-          const j = idleIdx++;
-          const p = at((j + 1) * TRAIL_GAP);
-          const ahead = at(j * TRAIL_GAP);
-          tx = p.x;
-          ty = p.y;
-          trot =
-            Math.hypot(ahead.x - p.x, ahead.y - p.y) > 1
-              ? (Math.atan2(ahead.y - p.y, ahead.x - p.x) * 180) / Math.PI + 135
-              : a.rot;
-          k = 0.3;
+          // Follow as a loose flock behind the mouse, all pointing the way it's heading.
+          const c = at(FLOCK_BACK);
+          const cos = Math.cos(heading);
+          const sin = Math.sin(heading);
+          // Offsets are rotated so the flock stretches along the direction of travel.
+          tx = c.x - 40 * cos + a.ox * cos - a.oy * sin;
+          ty = c.y - 40 * sin + a.ox * sin + a.oy * cos;
+          trot = (heading * 180) / Math.PI + 135;
+          k = a.speed;
         } else {
           const ang = (i / agents.length) * Math.PI * 2 + now * 0.0005;
           tx = mouse.x + Math.cos(ang) * RING_R;
@@ -416,8 +423,8 @@ export default function SwarmCursors() {
             <path
               d="M1 1 L1 16 L5 12 L8 19 L11 18 L8 11 L14 11 Z"
               fill={color}
-              stroke="#0a0a0a"
-              strokeWidth="1.2"
+              stroke="#fff"
+              strokeWidth="1.4"
               strokeLinejoin="round"
             />
           </svg>
