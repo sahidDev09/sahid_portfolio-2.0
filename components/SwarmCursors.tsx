@@ -44,6 +44,7 @@ const visible = (el: Element) => el.checkVisibility?.({ visibilityProperty: true
 const TRAIL_GAP = 5; // frames of mouse history between trailing cursors
 const STOP_MS = 180; // mouse idle this long = stopped, form the ring
 const DRAW_MS = 650;
+const FLY_MAX_MS = 600; // start drawing even if the target keeps moving (marquees, floating cards)
 const HOLD_MS = 450;
 
 type Task = { el: Element; phase: "fly" | "draw" | "type" | "hold"; t: number; dur: number };
@@ -291,7 +292,7 @@ export default function SwarmCursors() {
               release(task.el);
               a.task = null;
               label.style.opacity = "0";
-            } else if (Math.hypot(tx - a.x, ty - a.y) < 8) {
+            } else if (Math.hypot(tx - a.x, ty - a.y) < 8 || now - task.t > FLY_MAX_MS) {
               task.phase = "draw";
               task.t = now;
               (box.firstElementChild as HTMLElement).textContent =
