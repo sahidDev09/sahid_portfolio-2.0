@@ -16,8 +16,31 @@ const AGENTS = [
   ["Zoe", "#4ade80"],
 ] as const;
 
-const SELECTOR = "h1, h2, h3, p, a, button, img";
+const SELECTOR = "h1, h2, h3, p, a, button, img, [role=button], div";
+
+const clear = (c: string) => c === "transparent" || c.endsWith(", 0)");
+// Divs only count as "cards": rounded, with a visible border, fill or shadow.
+function isCard(el: Element) {
+  const cs = getComputedStyle(el);
+  if (!(parseFloat(cs.borderTopLeftRadius) > 0)) return false;
+  // Skip decorative glows/blobs: blurred, click-through, or circular shapes.
+  if (cs.filter.includes("blur") || cs.pointerEvents === "none") return false;
+  const r = el.getBoundingClientRect();
+  const circle =
+    Math.abs(r.width - r.height) < Math.max(r.width, r.height) * 0.15 &&
+    parseFloat(cs.borderTopLeftRadius) >= Math.min(r.width, r.height) / 2 - 1;
+  if (circle) return false;
+  return (
+    (parseFloat(cs.borderTopWidth) > 0 && !clear(cs.borderTopColor)) ||
+    !clear(cs.backgroundColor) ||
+    cs.boxShadow !== "none"
+  );
+}
 const RING_R = 38;
+const BOX = "#4f7cff";
+const visible = (el: Element) => el.checkVisibility?.({ visibilityProperty: true }) ?? true;
+
+
 const TRAIL_GAP = 5; // frames of mouse history between trailing cursors
 const STOP_MS = 180; // mouse idle this long = stopped, form the ring
 const DRAW_MS = 650;
@@ -116,10 +139,42 @@ export default function SwarmCursors() {
     const seen = new WeakSet<Element>();
     const typing = new Map<Element, Typing>();
     const range = document.createRange();
+    // Elements stay hidden (visibility, so layout holds) until their cursor finishes the box.
+    // Meanwhile a placeholder sits in their place: gray shape for cards, blue outline for the rest.
+    const layer = root.querySelector<HTMLElement>("[data-ph]")!;
+    const hidden = new Map<HTMLElement, { prev: string; ph: HTMLElement }>();
+    const hide = (el: Element) => {
+      if (!(el instanceof HTMLElement) || hidden.has(el)) return;
+      const ph = document.createElement("div");
+      ph.style.cssText = "position:absolute;left:0;top:0";
+      if (el.tagName === "DIV") {
+        ph.style.background = "rgba(255,255,255,0.07)";
+        ph.style.borderRadius = getComputedStyle(el).borderRadius;
+      } else {
+        ph.style.border = `1px solid ${BOX}99`;
+        ph.style.borderRadius = "3px";
+      }
+      layer.appendChild(ph);
+      hidden.set(el, { prev: el.style.visibility, ph });
+      el.style.visibility = "hidden";
+    };
+    const show = (el: Element) => {
+      const h = hidden.get(el as HTMLElement);
+      if (!h) return;
+      (el as HTMLElement).style.visibility = h.prev;
+      h.ph.remove();
+      hidden.delete(el as HTMLElement);
+    };
+    // Build parents before children: a child inside a still-hidden parent would be invisible.
+    const insideHidden = (el: Element) => {
+      for (const h of hidden.keys()) if (h !== el && h.contains(el)) return true;
+      return false;
+    };
     const release = (el: Element) => {
       const t = typing.get(el);
       if (t) restore(t);
       typing.delete(el);
+      show(el);
     };
 
     const io = new IntersectionObserver(
@@ -129,20 +184,49 @@ export default function SwarmCursors() {
           io.unobserve(e.target);
           const r = e.boundingClientRect;
           if (r.width < 12 || r.height < 8 || r.height >= innerHeight) continue;
+          if (e.target.tagName === "DIV" && (r.width < 60 || r.height < 40 || r.width > innerWidth * 0.9)) continue;
+          // Our own hiding of a parent doesn't count as invisible.
+          if (!insideHidden(e.target) && !visible(e.target)) continue;
           queue.push(e.target);
           const t = claim(e.target);
           if (t) typing.set(e.target, t);
+          hide(e.target);
         }
       },
-      { threshold: 0.4 }
+      { threshold: 0, rootMargin: "0px 0px 15% 0px" }
     );
     // Rescan so content that mounts later (intro animations, lazy sections) gets built too.
-    const scan = () =>
+    // Swarm waits until the hero journey is 70% through (it sets data-swarm); no journey = always on.
+    const isActive = () => {
+      const j = document.querySelector(".journey");
+      return !j || j.hasAttribute("data-swarm");
+    };
+    // While the hero journey runs, the hero + navbar on screen are the copy inside its portal
+    // (the real ones are visibility:hidden until data-done), so build the portal copy and skip
+    // the journey's own content. The real hero/navbar are only built if the portal copy never
+    // was, e.g. the page loaded already scrolled past the journey.
+    let builtPortal = false;
+    const allowed = (el: Element) => {
+      const j = document.querySelector(".journey");
+      if (!j) return true;
+      const done = j.hasAttribute("data-done");
+      if (el.closest(".journey")) return !done && !!el.closest(".portal__content");
+      if (el.closest(".landing-hero-continuation")) return done && !builtPortal;
+      return true;
+    };
+    let active = isActive();
+    root.style.opacity = active ? "1" : "0";
+    const scan = () => {
+      if (!active) return;
+      const j = document.querySelector(".journey");
+      if (j && !j.hasAttribute("data-done")) builtPortal = true;
       document.querySelectorAll(SELECTOR).forEach((el) => {
-        if (seen.has(el) || root.contains(el) || el.closest(".journey")) return;
+        if (seen.has(el) || root.contains(el) || !allowed(el)) return;
         seen.add(el);
+        if (el.tagName === "DIV" && !isCard(el)) return;
         io.observe(el);
       });
+    };
     scan();
     const scanTimer = setInterval(scan, 1500);
 
@@ -157,10 +241,18 @@ export default function SwarmCursors() {
 
     let raf = 0;
     const loop = (now: number) => {
-      // Hide the swarm while the hero journey owns the viewport.
-      const journey = document.querySelector(".journey")?.getBoundingClientRect();
-      root.style.opacity =
-        journey && journey.top < innerHeight / 2 && journey.bottom > innerHeight / 2 ? "0" : "1";
+      const nowActive = isActive();
+      if (nowActive !== active) {
+        active = nowActive;
+        root.style.opacity = active ? "1" : "0";
+        scan();
+      }
+      hidden.forEach(({ ph }, el) => {
+        const r = el.getBoundingClientRect();
+        ph.style.transform = `translate(${r.left}px, ${r.top}px)`;
+        ph.style.width = `${r.width}px`;
+        ph.style.height = `${r.height}px`;
+      });
       hist.push({ x: mouse.x, y: mouse.y });
       if (hist.length > 200) hist.shift();
       const moving = now - lastMove < STOP_MS;
@@ -170,9 +262,14 @@ export default function SwarmCursors() {
         const cursor = cursors[i];
         const box = boxes[i];
         const label = cursor.lastElementChild as HTMLElement;
+        const arrow = cursor.firstElementChild as HTMLElement;
+        const ibeam = arrow.nextElementSibling as HTMLElement;
         if (!a.task && queue.length) {
-          a.task = { el: queue.shift()!, phase: "fly", t: now, dur: 0 };
-          label.style.opacity = "1";
+          const idx = queue.findIndex((el) => !insideHidden(el));
+          if (idx >= 0) {
+            a.task = { el: queue.splice(idx, 1)[0], phase: "fly", t: now, dur: 0 };
+            label.style.opacity = "1";
+          }
         }
 
         let tx: number, ty: number;
@@ -185,7 +282,12 @@ export default function SwarmCursors() {
           if (task.phase === "fly") {
             tx = r.left;
             ty = r.top;
-            if (r.bottom < 0 || r.top > innerHeight || !task.el.isConnected) {
+            if (
+              r.bottom < 0 ||
+              r.top > innerHeight * 1.5 ||
+              !task.el.isConnected ||
+              task.el.closest(".journey[data-done]")
+            ) {
               release(task.el);
               a.task = null;
               label.style.opacity = "0";
@@ -209,6 +311,7 @@ export default function SwarmCursors() {
             k = 0.35;
             const typed = typing.get(task.el);
             if (task.phase === "draw" && p >= 1) {
+              show(task.el);
               task.phase = typed ? "type" : "hold";
               task.t = now;
               if (typed) task.dur = Math.min(2200, Math.max(300, typed.total * 22));
@@ -221,7 +324,11 @@ export default function SwarmCursors() {
                 ty = c.y;
               }
               k = 0.5;
+              arrow.style.opacity = "0";
+              ibeam.style.opacity = "1";
               if (tp >= 1) {
+                arrow.style.opacity = "1";
+                ibeam.style.opacity = "0";
                 release(task.el);
                 task.phase = "hold";
                 task.t = now;
@@ -256,7 +363,7 @@ export default function SwarmCursors() {
         a.y += (ty - a.y) * k;
         a.rot += ((((trot - a.rot + 540) % 360) + 360) % 360 - 180) * 0.15;
         cursor.style.transform = `translate(${a.x}px, ${a.y}px)`;
-        (cursor.firstElementChild as HTMLElement).style.transform = `rotate(${a.rot}deg)`;
+        arrow.style.transform = `rotate(${a.rot}deg)`;
       });
       raf = requestAnimationFrame(loop);
     };
@@ -267,6 +374,12 @@ export default function SwarmCursors() {
       clearInterval(scanTimer);
       io.disconnect();
       typing.forEach(restore);
+      typing.clear();
+      hidden.forEach(({ prev, ph }, el) => {
+        el.style.visibility = prev;
+        ph.remove();
+      });
+      hidden.clear();
       removeEventListener("pointermove", onMove);
     };
   }, [mounted]);
@@ -275,17 +388,25 @@ export default function SwarmCursors() {
 
   return createPortal(
     <div ref={rootRef} aria-hidden className="pointer-events-none fixed inset-0 z-[9999] transition-opacity duration-300">
-      {AGENTS.map(([name, color]) => (
+      <div data-ph />
+      {AGENTS.map(([name]) => (
         <div
           key={`box-${name}`}
           data-box
           className="absolute left-0 top-0 opacity-0 transition-opacity duration-300"
-          style={{ border: `1px solid ${color}`, background: `${color}10` }}
+          style={{ border: `1px solid ${BOX}`, background: `${BOX}0d` }}
         >
           <span
-            className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap rounded px-1.5 py-0.5 font-mono text-[10px] text-black"
-            style={{ background: color }}
+            className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap rounded px-1.5 py-0.5 font-mono text-[10px] font-semibold text-white"
+            style={{ background: BOX }}
           />
+          {["-left-1 -top-1", "-right-1 -top-1", "-left-1 -bottom-1", "-right-1 -bottom-1"].map((pos) => (
+            <i
+              key={pos}
+              className={`absolute ${pos} h-2 w-2 bg-white`}
+              style={{ border: `1px solid ${BOX}` }}
+            />
+          ))}
         </div>
       ))}
       {AGENTS.map(([name, color]) => (
@@ -297,6 +418,19 @@ export default function SwarmCursors() {
               stroke="#0a0a0a"
               strokeWidth="1.2"
               strokeLinejoin="round"
+            />
+          </svg>
+          <svg
+            width="10"
+            height="18"
+            viewBox="0 0 10 18"
+            className="absolute -left-[5px] top-0 opacity-0"
+          >
+            <path
+              d="M2 1 H8 M5 1 V17 M2 17 H8"
+              stroke={color}
+              strokeWidth="2"
+              strokeLinecap="round"
             />
           </svg>
           <span
